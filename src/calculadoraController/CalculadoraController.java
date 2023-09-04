@@ -433,6 +433,10 @@ public class CalculadoraController implements ActionListener {
 						areaDeTexto.setText(resultado);
 					}
 					
+//					EXPRESÃO DE SOMA E SUBTRAÇÃO
+					
+					if (!caracteres.contains('x')&&!caracteres.contains('÷')) {}
+					
 //					MULTIPLICAÇÃO
 					
 					if(verificarSinal('x')) {
@@ -448,6 +452,8 @@ public class CalculadoraController implements ActionListener {
 								divisao(OperacoesEmSequencia('÷')));
 						areaDeTexto.setText(resultado);
 					}
+					
+//					EXPLESSÕES DE COM TRÊS OU QUATRO OPERAÇÕES
 					
 
 					
