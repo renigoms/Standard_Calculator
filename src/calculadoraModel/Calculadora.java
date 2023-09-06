@@ -22,12 +22,15 @@ public class Calculadora implements OperacoesI{
 
 	@Override
 	public double subtracao(ArrayList<Double> num) {
+
 		if(num.size() == 1)
 			return num.get(0);
 		double soma = num.get(0);
 		num.remove(0);
 		for(double nums:num)
-			soma-=nums;
+			if(nums<0)
+				soma+=nums;
+			else soma-=nums;
 		return soma;
 	}
 
