@@ -3,8 +3,10 @@ package calculadoraController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JTextField;
+import javax.swing.Spring;
 
 import calculadoraModel.Calculadora;
 import calculadoraModel.OperacaoInvalidaException;
@@ -384,8 +386,13 @@ public class CalculadoraController implements ActionListener {
 		private ArrayList<Double> OperacoesEmSequencia(char sinal) {
 			ArrayList<Double> numOperacao = new ArrayList<>();
 			String unir = "";
+			boolean acessou = false;
 			for(Character chars:caracteres) {
-				if(chars == sinal) {
+				if(String.valueOf(sinal).equals(String.valueOf(caracteres.get(0)))&&
+						caracteres.indexOf(chars) == 0 && !acessou) {
+					unir += String.valueOf(chars);
+					acessou = true;
+				}else if(chars == sinal) {
 					numOperacao.add(Double.parseDouble(unir));
 					unir = "";
 				}else {
@@ -395,6 +402,234 @@ public class CalculadoraController implements ActionListener {
 			numOperacao.add(Double.parseDouble(unir));
 			return numOperacao;
 		}
+		private ArrayList<Double> convArrayListString(ArrayList<String> stringInput) {
+			ArrayList<Double> numOperacao = new ArrayList<>();
+			for(String str:stringInput) {
+				numOperacao.add(Double.parseDouble(str));
+			}
+			return numOperacao;
+		}
+		
+		private void OperacSomaSubtr() {
+			if(!caracteres.contains('x') && !caracteres.contains('÷')) {
+//				ARRAYLIST DE OPERAÇÕES DE SOMAS
+				ArrayList<String> operSoma = new ArrayList<>(); 
+//				ARRAYLIST DE OPERAÇÕES DE SUBTRAÇÃO
+				ArrayList<String> operSub = new ArrayList<>();
+//				VARIÁVEIS BOLEANAS
+				boolean isSoma = true, inicioNegativo = caracteres.get(0)=='-'?true:false;
+//				STRING DE UNIÃO
+				String unir = "";
+				
+//				FOR QUE PERCORRE OS CARACTERES DA ÁREA DE EXIBIÇÃO
+		
+				for(int i=0; i<=caracteres.size()-1;i++) {
+//					GETCARACTER
+					Character chars = caracteres.get(i);
+					
+//					SEPARANDO OS NÚMEROS ENTRE POSITIVO E NEGATIVO
+					
+					switch (caracteres.get(i)) {
+					case '+':
+						if(isSoma) {
+							operSoma.add(unir);
+							unir="";
+						}else {
+							operSub.add(unir);
+							unir = "";
+						}
+						unir+=String.valueOf(chars);
+						isSoma = true;
+						break;
+					case '-':
+						if(inicioNegativo) {
+							unir+=String.valueOf(chars);
+							isSoma = false;
+							inicioNegativo = false;
+							break;
+						}
+						if(!inicioNegativo) {
+							if(isSoma ) {
+								operSoma.add(unir);
+								unir="";
+							}else {
+								operSub.add(unir);
+								unir = "";
+							}
+							unir+=String.valueOf(chars);
+							isSoma = false;
+						}
+						break;
+					default:
+						unir += String.valueOf(chars);
+						break;
+					}
+				}
+				if(isSoma) {
+					operSoma.add(unir);
+				}else {
+					operSub.add(unir);
+				}
+				
+				double resultSoma = calculadora.soma(convArrayListString(operSoma)),
+						resultSub = calculadora.subtracao(convArrayListString(operSub));
+				double resultTotal = resultSoma + resultSub;
+
+				areaDeTexto.setText(String.valueOf(resultTotal));
+			}
+		}
+		
+//		private void operacoesMultDiv() {
+//			if(!caracteres.contains('+') && !caracteres.contains('-')) {
+////				ARRAYLIST DE OPERAÇÕES DE MULTIPLICAÇÃO
+//				ArrayList<String> operMult = new ArrayList<>(); 
+////				ARRAYLIST DE OPERAÇÕES DE DIVISÃO
+//				ArrayList<String> operDiv = new ArrayList<>();
+////				VARIÁVEIS BOLEANAS
+//				boolean isMult = true, inicioNegativo = caracteres.get(0)=='-'?true:false;
+////				STRING DE UNIÃO
+//				String unir = "";
+//				
+////				FOR QUE PERCORRE OS CARACTERES DA ÁREA DE EXIBIÇÃO
+//		
+//				for(int i=0; i<=caracteres.size()-1;i++) {
+////					GETCARACTER
+//					Character chars = caracteres.get(i);
+//					
+//					switch (chars) {
+//					case 'x':
+//						if(isMult) {
+//							operMult.add(unir);
+//							unir="";
+//						}else {
+//							operDiv.add(unir);
+//							unir = "";
+//						}
+//						isMult = true;
+//						break;
+//					case '÷':
+//						if(inicioNegativo) {
+//							unir+=String.valueOf(chars);
+//							isMult = false;
+//							inicioNegativo = false;
+//							break;
+//						}
+//						if(!inicioNegativo) {
+//							if(isMult ) {
+//								operMult.add(unir);
+//								unir="";
+//							}else {
+//								operDiv.add(unir);
+//								unir = "";
+//							}
+//							isMult = false;
+//						}
+//						break;
+//					default:
+//						unir += String.valueOf(chars);
+//						break;
+//					}
+//				}
+//				if(isMult) {
+//					operMult.add(unir);
+//				}else {
+//					operDiv.add(unir);
+//				}
+//				
+//				double resultMult = calculadora.multiplicacao(convArrayListString(operMult));
+//				
+//				ArrayList<Double> listResultMult = new ArrayList<>(Arrays.asList(resultMult));
+//				ArrayList<Double>listNumsDiv = convArrayListString(operDiv);
+//				listResultMult.addAll(listNumsDiv);
+//				double resultTotal = calculadora.divisao(listResultMult);
+//
+//				areaDeTexto.setText(String.valueOf(resultTotal));
+//				
+//			}
+//		}
+		private void operacoesMultDiv(char foraExpre1, char foraExpre2,char operInicio, char operIncluida) {
+			if(!caracteres.contains(foraExpre1) && !caracteres.contains(foraExpre2)) {
+//				ARRAYLIST DE OPERAÇÕES DE MULTIPLICAÇÃO
+				ArrayList<String> listOpenInicio = new ArrayList<>(); 
+//				ARRAYLIST DE OPERAÇÕES DE DIVISÃO
+				ArrayList<String> listOperIncluida = new ArrayList<>();
+//				VARIÁVEIS BOLEANAS
+				boolean isOpeInicio = true, inicioNegativo = caracteres.get(0)=='-'?true:false;
+//				STRING DE UNIÃO
+				String unir = "";
+				
+//				FOR QUE PERCORRE OS CARACTERES DA ÁREA DE EXIBIÇÃO
+				
+				for(int i=0; i<=caracteres.size()-1;i++) {
+//					GETCARACTER
+					Character chars = caracteres.get(i);
+					
+					if(inicioNegativo) {
+						unir+=String.valueOf(chars);
+						isOpeInicio = false;
+						inicioNegativo = false;
+						continue;
+					}
+					
+					if(chars == operInicio) {
+						if(isOpeInicio) {
+							listOpenInicio.add(unir);
+							unir="";
+						}else {
+							listOperIncluida.add(unir);
+							unir = "";
+						}
+						isOpeInicio = true;
+						continue;
+					}else if (chars == operIncluida) {
+						if(!inicioNegativo) {
+							if(isOpeInicio ) {
+								listOpenInicio.add(unir);
+								unir="";
+							}else {
+								listOperIncluida.add(unir);
+								unir = "";
+							}
+							isOpeInicio = false;
+							continue;
+						}
+						
+					}else unir += String.valueOf(chars);
+				}
+				if(isOpeInicio) {
+					listOpenInicio.add(unir);
+				}else {
+					listOperIncluida.add(unir);
+				}
+				
+				double resultInicio = calculadora.multiplicacao(convArrayListString(listOpenInicio));
+				
+				ArrayList<Double> listResultInicio = new ArrayList<>(Arrays.asList(resultInicio));
+				ArrayList<Double>listResultIncluidos = convArrayListString(listOperIncluida);
+				listResultInicio.addAll(listResultIncluidos);
+				double resultTotal;
+				
+				switch (operIncluida) {
+				case '+':
+					resultTotal = calculadora.soma(listResultInicio);
+					break;
+					
+				case '-':
+					resultTotal = calculadora.subtracao(listResultInicio);
+					break;
+
+				default:
+					resultTotal = calculadora.divisao(listResultInicio);
+					break;
+				}
+				
+				
+				
+				areaDeTexto.setText(String.valueOf(resultTotal));
+				
+			}
+		}
+
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -413,7 +648,7 @@ public class CalculadoraController implements ActionListener {
 			
 //					OPERAÇÕES:
 					
-					listChars();
+					listChars(); //lista de chars na area de texto
 					
 					
 					
@@ -423,6 +658,7 @@ public class CalculadoraController implements ActionListener {
 						String resultado = String.valueOf(calculadora.
 								soma(OperacoesEmSequencia('+')));
 						areaDeTexto.setText(resultado);
+						return;
 					}
 					
 //					SUBTRAÇÃO
@@ -431,11 +667,13 @@ public class CalculadoraController implements ActionListener {
 						String resultado = String.valueOf(calculadora.
 								subtracao(OperacoesEmSequencia('-')));
 						areaDeTexto.setText(resultado);
+						return;
 					}
 					
 //					EXPRESÃO DE SOMA E SUBTRAÇÃO
 					
-					if (!caracteres.contains('x')&&!caracteres.contains('÷')) {}
+					OperacSomaSubtr();
+					
 					
 //					MULTIPLICAÇÃO
 					
@@ -443,6 +681,7 @@ public class CalculadoraController implements ActionListener {
 						String resultado = String.valueOf(calculadora.
 								multiplicacao(OperacoesEmSequencia('x')));
 						areaDeTexto.setText(resultado);
+						return;
 					}
 					
 //					DIVISÃO
@@ -451,7 +690,19 @@ public class CalculadoraController implements ActionListener {
 						String resultado = String.valueOf(calculadora.
 								divisao(OperacoesEmSequencia('÷')));
 						areaDeTexto.setText(resultado);
+						return;
 					}
+					
+//					EXPRESSÕES DE MULTIPLICAÇÃO E DIVISÃO
+					operacoesMultDiv('+','-','x', '÷');
+					
+//					EXPRESSÕES DE MULTIPLICAÇÃO E ADIÇÃO E MULTIPLICAÇÃO E SUBTRAÇÃO
+					operacoesMultDiv('÷', '-', 'x', '+');
+					operacoesMultDiv('÷', '+', 'x', '-');
+					
+//					EXPRESSÕES DE MULTIPLICAÇÃO E ADIÇÃO E MULTIPLICAÇÃO E SUBTRAÇÃO
+					operacoesMultDiv('x', '-', '÷', '+');
+					operacoesMultDiv('x', '+', '÷', '-');
 					
 //					EXPLESSÕES DE COM TRÊS OU QUATRO OPERAÇÕES
 					
