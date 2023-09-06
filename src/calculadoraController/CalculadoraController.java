@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JTextField;
-import javax.swing.Spring;
 
 import calculadoraModel.Calculadora;
 import calculadoraModel.OperacaoInvalidaException;
@@ -479,74 +478,6 @@ public class CalculadoraController implements ActionListener {
 			}
 		}
 		
-//		private void operacoesMultDiv() {
-//			if(!caracteres.contains('+') && !caracteres.contains('-')) {
-////				ARRAYLIST DE OPERAÇÕES DE MULTIPLICAÇÃO
-//				ArrayList<String> operMult = new ArrayList<>(); 
-////				ARRAYLIST DE OPERAÇÕES DE DIVISÃO
-//				ArrayList<String> operDiv = new ArrayList<>();
-////				VARIÁVEIS BOLEANAS
-//				boolean isMult = true, inicioNegativo = caracteres.get(0)=='-'?true:false;
-////				STRING DE UNIÃO
-//				String unir = "";
-//				
-////				FOR QUE PERCORRE OS CARACTERES DA ÁREA DE EXIBIÇÃO
-//		
-//				for(int i=0; i<=caracteres.size()-1;i++) {
-////					GETCARACTER
-//					Character chars = caracteres.get(i);
-//					
-//					switch (chars) {
-//					case 'x':
-//						if(isMult) {
-//							operMult.add(unir);
-//							unir="";
-//						}else {
-//							operDiv.add(unir);
-//							unir = "";
-//						}
-//						isMult = true;
-//						break;
-//					case '÷':
-//						if(inicioNegativo) {
-//							unir+=String.valueOf(chars);
-//							isMult = false;
-//							inicioNegativo = false;
-//							break;
-//						}
-//						if(!inicioNegativo) {
-//							if(isMult ) {
-//								operMult.add(unir);
-//								unir="";
-//							}else {
-//								operDiv.add(unir);
-//								unir = "";
-//							}
-//							isMult = false;
-//						}
-//						break;
-//					default:
-//						unir += String.valueOf(chars);
-//						break;
-//					}
-//				}
-//				if(isMult) {
-//					operMult.add(unir);
-//				}else {
-//					operDiv.add(unir);
-//				}
-//				
-//				double resultMult = calculadora.multiplicacao(convArrayListString(operMult));
-//				
-//				ArrayList<Double> listResultMult = new ArrayList<>(Arrays.asList(resultMult));
-//				ArrayList<Double>listNumsDiv = convArrayListString(operDiv);
-//				listResultMult.addAll(listNumsDiv);
-//				double resultTotal = calculadora.divisao(listResultMult);
-//
-//				areaDeTexto.setText(String.valueOf(resultTotal));
-//				
-//			}
-//		}
 		private void operacoesMultDiv(char foraExpre1, char foraExpre2,char operInicio, char operIncluida) {
 			if(!caracteres.contains(foraExpre1) && !caracteres.contains(foraExpre2)) {
 //				ARRAYLIST DE OPERAÇÕES DE MULTIPLICAÇÃO
