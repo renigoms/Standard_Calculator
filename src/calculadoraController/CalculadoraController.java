@@ -2,8 +2,9 @@ package calculadoraController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JTextField;
 
@@ -19,6 +20,7 @@ public class CalculadoraController implements ActionListener {
 	private JTextField areaDeTexto;
 	private Calculadora calculadora;
 	private ResultadosOperacoes resultadosOperacoes;
+	private KeyHandler keyHandler;
 
 	public CalculadoraController(TelaPrincipal telaPrincipal) {
 		super();
@@ -27,8 +29,10 @@ public class CalculadoraController implements ActionListener {
 		this.areaDeTexto = telaPrincipal.getAreaDeExibicao();
 		this.calculadora = new Calculadora();
 		this.resultadosOperacoes = new ResultadosOperacoes();
+		this.keyHandler = new KeyHandler();
 		control();
 		control2();
+		digitos.getLigar().doClick();
 	}
 
 	private void control() {
@@ -236,6 +240,39 @@ public class CalculadoraController implements ActionListener {
 		});
 	}
 	
+//	ALGUNS CARACTERES ESPECIAIS
+	
+	private void control2() {
+		digitos.getRaiz().addActionListener(this);
+		digitos.getPonto().addActionListener(this);
+		digitos.getApagar().addActionListener(this);
+		digitos.getIgual().addActionListener(resultadosOperacoes);
+		areaDeTexto.addKeyListener(keyHandler);
+//		COMANDOS DO TECLADO
+//		SINAIS ESPECIAIS
+		digitos.getMais().addKeyListener(keyHandler);
+		digitos.getMenos().addKeyListener(keyHandler);
+		digitos.getVezes().addKeyListener(keyHandler);
+		digitos.getDividir().addKeyListener(keyHandler);
+		digitos.getIgual().addKeyListener(keyHandler);
+		digitos.getApagar().addKeyListener(keyHandler);
+		digitos.getPonto().addKeyListener(keyHandler);
+		digitos.getLigar().addKeyListener(keyHandler);
+		digitos.getApagarTudo().addKeyListener(keyHandler);
+//		NÚMEROS DE 0 A 9
+		digitos.getZero().addKeyListener(keyHandler);
+		digitos.getUm().addKeyListener(keyHandler);
+		digitos.getDois().addKeyListener(keyHandler);
+		digitos.getTres().addKeyListener(keyHandler);
+		digitos.getQuatro().addKeyListener(keyHandler);
+		digitos.getCinco().addKeyListener(keyHandler);
+		digitos.getSeis().addKeyListener(keyHandler);
+		digitos.getSete().addKeyListener(keyHandler);
+		digitos.getOito().addKeyListener(keyHandler);
+		digitos.getNove().addKeyListener(keyHandler);
+		
+	}
+	
 	/**
 	 * <h1>Faz o gerenciamento do primeiro digito</h1>
 	 */
@@ -287,14 +324,6 @@ public class CalculadoraController implements ActionListener {
 		return false;
 	}
 
-//	ALGUNS CARACTERES ESPECIAIS
-
-	private void control2() {
-		digitos.getRaiz().addActionListener(this);
-		digitos.getPonto().addActionListener(this);
-		digitos.getApagar().addActionListener(this);
-		digitos.getIgual().addActionListener(resultadosOperacoes);
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -334,11 +363,7 @@ public class CalculadoraController implements ActionListener {
 
 		private ArrayList<Character> caracteres;
 
-		public ResultadosOperacoes() {
-			super();
-			
-
-		}
+		public ResultadosOperacoes() {}
 		
 		private void listChars() {
 			this.caracteres = new ArrayList<>();
@@ -346,61 +371,7 @@ public class CalculadoraController implements ActionListener {
 				caracteres.add(areaDeTexto.getText().charAt(i));
 		}
 		
-		private boolean verificarSinal(char sinal) {
-			switch (sinal) {
-				case '+':
-					if(!caracteres.contains('-')&&
-							!caracteres.contains('÷')&&
-							!caracteres.contains('x')) {
-						return true;
-					}
-					break;
-					
-				case '-':
-					if(!caracteres.contains('+')&&
-							!caracteres.contains('÷')&&
-							!caracteres.contains('x')) {
-						return true;
-					}
-					break;
-				case 'x':
-					if(!caracteres.contains('-')&&
-							!caracteres.contains('÷')&&
-							!caracteres.contains('+')) {
-						return true;
-					}break;
-				case '÷':
-					if(!caracteres.contains('-')&&
-							!caracteres.contains('x')&&
-							!caracteres.contains('+')) {
-						return true;
-					}break;
-
-				default:
-					break;
-			}
-			return false;
-		}
 		
-		private ArrayList<Double> OperacoesEmSequencia(char sinal) {
-			ArrayList<Double> numOperacao = new ArrayList<>();
-			String unir = "";
-			boolean acessou = false;
-			for(Character chars:caracteres) {
-				if(String.valueOf(sinal).equals(String.valueOf(caracteres.get(0)))&&
-						caracteres.indexOf(chars) == 0 && !acessou) {
-					unir += String.valueOf(chars);
-					acessou = true;
-				}else if(chars == sinal) {
-					numOperacao.add(Double.parseDouble(unir));
-					unir = "";
-				}else {
-					unir += String.valueOf(chars);
-				}
-			}
-			numOperacao.add(Double.parseDouble(unir));
-			return numOperacao;
-		}
 		private ArrayList<Double> convArrayListString(ArrayList<String> stringInput) {
 			ArrayList<Double> numOperacao = new ArrayList<>();
 			for(String str:stringInput) {
@@ -409,157 +380,136 @@ public class CalculadoraController implements ActionListener {
 			return numOperacao;
 		}
 		
-		private void OperacSomaSubtr() {
-			if(!caracteres.contains('x') && !caracteres.contains('÷')) {
-//				ARRAYLIST DE OPERAÇÕES DE SOMAS
-				ArrayList<String> operSoma = new ArrayList<>(); 
-//				ARRAYLIST DE OPERAÇÕES DE SUBTRAÇÃO
-				ArrayList<String> operSub = new ArrayList<>();
-//				VARIÁVEIS BOLEANAS
-				boolean isSoma = true, inicioNegativo = caracteres.get(0)=='-'?true:false;
-//				STRING DE UNIÃO
-				String unir = "";
-				
-//				FOR QUE PERCORRE OS CARACTERES DA ÁREA DE EXIBIÇÃO
-		
-				for(int i=0; i<=caracteres.size()-1;i++) {
-//					GETCARACTER
-					Character chars = caracteres.get(i);
-					
-//					SEPARANDO OS NÚMEROS ENTRE POSITIVO E NEGATIVO
-					
-					switch (caracteres.get(i)) {
-					case '+':
-						if(isSoma) {
-							operSoma.add(unir);
-							unir="";
-						}else {
-							operSub.add(unir);
-							unir = "";
-						}
-						unir+=String.valueOf(chars);
-						isSoma = true;
-						break;
-					case '-':
-						if(inicioNegativo) {
-							unir+=String.valueOf(chars);
-							isSoma = false;
-							inicioNegativo = false;
-							break;
-						}
-						if(!inicioNegativo) {
-							if(isSoma ) {
-								operSoma.add(unir);
-								unir="";
-							}else {
-								operSub.add(unir);
-								unir = "";
-							}
-							unir+=String.valueOf(chars);
-							isSoma = false;
-						}
-						break;
-					default:
-						unir += String.valueOf(chars);
-						break;
-					}
-				}
-				if(isSoma) {
-					operSoma.add(unir);
-				}else {
-					operSub.add(unir);
-				}
-				
-				double resultSoma = calculadora.soma(convArrayListString(operSoma)),
-						resultSub = calculadora.subtracao(convArrayListString(operSub));
-				double resultTotal = resultSoma + resultSub;
+		private double operacoes() {
 
-				areaDeTexto.setText(String.valueOf(resultTotal));
-			}
-		}
-		
-		private void operacoesMultDiv(char foraExpre1, char foraExpre2,char operInicio, char operIncluida) {
-			if(!caracteres.contains(foraExpre1) && !caracteres.contains(foraExpre2)) {
-//				ARRAYLIST DE OPERAÇÕES DE MULTIPLICAÇÃO
-				ArrayList<String> listOpenInicio = new ArrayList<>(); 
-//				ARRAYLIST DE OPERAÇÕES DE DIVISÃO
-				ArrayList<String> listOperIncluida = new ArrayList<>();
-//				VARIÁVEIS BOLEANAS
-				boolean isOpeInicio = true, inicioNegativo = caracteres.get(0)=='-'?true:false;
-//				STRING DE UNIÃO
-				String unir = "";
-				
-//				FOR QUE PERCORRE OS CARACTERES DA ÁREA DE EXIBIÇÃO
-				
-				for(int i=0; i<=caracteres.size()-1;i++) {
-//					GETCARACTER
-					Character chars = caracteres.get(i);
-					
-					if(inicioNegativo) {
-						unir+=String.valueOf(chars);
-						isOpeInicio = false;
-						inicioNegativo = false;
+			String unirChars = "+";
+
+			boolean inicioNegativo = caracteres.get(0) == '-';
+
+			ArrayList<String> principal = new ArrayList<>();
+			ArrayList<String> temporario = new ArrayList<>();
+
+			boolean isSomSub = true, isMultDiv = false;
+			boolean isSomSubAnterior = false, isMultDivAnterior = false;
+
+
+			for (Character chars : caracteres) {
+				if (inicioNegativo) {
+					unirChars = "";
+					unirChars += String.valueOf(chars);
+					isSomSub = true;
+					inicioNegativo = false;
+					continue;
+				}
+
+				if (chars == '+' || chars == '-') {
+					isMultDivAnterior = isMultDiv;
+					isMultDiv = false;
+					isSomSubAnterior = isSomSub;
+					isSomSub = true;
+
+					if (isSomSubAnterior && isSomSub) {
+						principal.add(unirChars);
+						unirChars = "";
+						unirChars += String.valueOf(chars);
 						continue;
 					}
-					
-					if(chars == operInicio) {
-						if(isOpeInicio) {
-							listOpenInicio.add(unir);
-							unir="";
-						}else {
-							listOperIncluida.add(unir);
-							unir = "";
-						}
-						isOpeInicio = true;
-						continue;
-					}else if (chars == operIncluida) {
-						if(!inicioNegativo) {
-							if(isOpeInicio ) {
-								listOpenInicio.add(unir);
-								unir="";
-							}else {
-								listOperIncluida.add(unir);
-								unir = "";
+					if (isMultDivAnterior && isSomSub) {
+						temporario.add(unirChars);
+						unirChars = "";
+						if (temporario.size() == 3) {
+							if (temporario.get(1).equals("x")) {
+								temporario.remove(1);
+								double result = calculadora.multiplicacao(convArrayListString(temporario));
+								temporario.clear();
+								principal.add(String.valueOf(result));
+								unirChars += String.valueOf(chars);
+								continue;
 							}
-							isOpeInicio = false;
-							continue;
-						}
-						
-					}else unir += String.valueOf(chars);
-				}
-				if(isOpeInicio) {
-					listOpenInicio.add(unir);
-				}else {
-					listOperIncluida.add(unir);
-				}
-				
-				double resultInicio = calculadora.multiplicacao(convArrayListString(listOpenInicio));
-				
-				ArrayList<Double> listResultInicio = new ArrayList<>(Arrays.asList(resultInicio));
-				ArrayList<Double>listResultIncluidos = convArrayListString(listOperIncluida);
-				listResultInicio.addAll(listResultIncluidos);
-				double resultTotal;
-				
-				switch (operIncluida) {
-				case '+':
-					resultTotal = calculadora.soma(listResultInicio);
-					break;
-					
-				case '-':
-					resultTotal = calculadora.subtracao(listResultInicio);
-					break;
 
-				default:
-					resultTotal = calculadora.divisao(listResultInicio);
-					break;
+							if (temporario.get(1).equals("÷")) {
+								temporario.remove(1);
+								double result = calculadora.divisao(convArrayListString(temporario));
+								temporario.clear();
+								principal.add(String.valueOf(result));
+								continue;
+							}
+
+						}
+					}
+
 				}
-				
-				
-				
-				areaDeTexto.setText(String.valueOf(resultTotal));
-				
+
+				if(chars == 'x' || chars == '÷'){
+					isMultDivAnterior = isMultDiv;
+					isMultDiv = true;
+					isSomSubAnterior = isSomSub;
+					isSomSub = false;
+
+					if(isSomSubAnterior && isMultDiv){
+						temporario.add(unirChars);
+						unirChars="";
+						unirChars += String.valueOf(chars);
+						temporario.add(unirChars);
+						unirChars="";
+						continue;
+
+					}
+
+					if(isMultDivAnterior && isMultDiv){
+						temporario.add(unirChars);
+						unirChars="";
+						if(temporario.size() == 3){
+							if(temporario.get(1).equals("x")){
+								temporario.remove(1);
+								double result = calculadora.multiplicacao(convArrayListString(temporario));
+								temporario.clear();
+								temporario.add(String.valueOf(result));
+								if(chars == 'x' || chars == '÷'){
+									unirChars += String.valueOf(chars);
+									temporario.add(unirChars);
+									unirChars="";
+								}
+								continue;
+							}if(temporario.get(1).equals("÷")){
+								temporario.remove(1);
+								double result = calculadora.divisao(convArrayListString(temporario));
+								temporario.clear();
+								temporario.add(String.valueOf(result));
+								if(chars == 'x' || chars == '÷'){
+									unirChars += String.valueOf(chars);
+									temporario.add(unirChars);
+									unirChars="";
+								}
+								continue;
+							}
+						}
+					}
+				}
+				unirChars += String.valueOf(chars);
 			}
+
+			if(isSomSub)
+				principal.add(unirChars);
+			if(isMultDiv)
+				temporario.add(unirChars);
+
+			if(temporario.size() == 3){
+				if (temporario.get(1).equals("x")) {
+					temporario.remove(1);
+					double result = calculadora.multiplicacao(convArrayListString(temporario));
+					principal.add(String.valueOf(result));
+				}
+				if (temporario.get(1).equals("÷")) {
+					temporario.remove(1);
+					double result = calculadora.divisao(convArrayListString(temporario));
+					principal.add(String.valueOf(result));
+				}
+			}
+			return calculadora.soma(convArrayListString(principal));
 		}
+		
+		
 
 
 		@Override
@@ -578,67 +528,8 @@ public class CalculadoraController implements ActionListener {
 						throw new OperacaoInvalidaException("Operação inválida");
 			
 //					OPERAÇÕES:
-					
 					listChars(); //lista de chars na area de texto
-					
-					
-					
-//					SOMATÓRIO
-					
-					if(verificarSinal('+')) {
-						String resultado = String.valueOf(calculadora.
-								soma(OperacoesEmSequencia('+')));
-						areaDeTexto.setText(resultado);
-						return;
-					}
-					
-//					SUBTRAÇÃO
-					
-					if(verificarSinal('-')) {
-						String resultado = String.valueOf(calculadora.
-								subtracao(OperacoesEmSequencia('-')));
-						areaDeTexto.setText(resultado);
-						return;
-					}
-					
-//					EXPRESÃO DE SOMA E SUBTRAÇÃO
-					
-					OperacSomaSubtr();
-					
-					
-//					MULTIPLICAÇÃO
-					
-					if(verificarSinal('x')) {
-						String resultado = String.valueOf(calculadora.
-								multiplicacao(OperacoesEmSequencia('x')));
-						areaDeTexto.setText(resultado);
-						return;
-					}
-					
-//					DIVISÃO
-					
-					if(verificarSinal('÷')) {
-						String resultado = String.valueOf(calculadora.
-								divisao(OperacoesEmSequencia('÷')));
-						areaDeTexto.setText(resultado);
-						return;
-					}
-					
-//					EXPRESSÕES DE MULTIPLICAÇÃO E DIVISÃO
-					operacoesMultDiv('+','-','x', '÷');
-					
-//					EXPRESSÕES DE MULTIPLICAÇÃO E ADIÇÃO E MULTIPLICAÇÃO E SUBTRAÇÃO
-					operacoesMultDiv('÷', '-', 'x', '+');
-					operacoesMultDiv('÷', '+', 'x', '-');
-					
-//					EXPRESSÕES DE MULTIPLICAÇÃO E ADIÇÃO E MULTIPLICAÇÃO E SUBTRAÇÃO
-					operacoesMultDiv('x', '-', '÷', '+');
-					operacoesMultDiv('x', '+', '÷', '-');
-					
-//					EXPLESSÕES DE COM TRÊS OU QUATRO OPERAÇÕES
-					
-
-					
+					areaDeTexto.setText(String.valueOf(operacoes()));
 					
 				} catch (OperacaoInvalidaException e2) {
 					// TODO: handle exception
@@ -647,5 +538,50 @@ public class CalculadoraController implements ActionListener {
 
 		}
 
+	}
+	
+	private class KeyHandler extends KeyAdapter{
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+//			NÚMEROS DE 0 A 9
+			if(e.getKeyChar() == '0')
+				digitos.getZero().doClick();
+			if(e.getKeyChar() == '1')
+				digitos.getUm().doClick();
+			if(e.getKeyChar() == '2')
+				digitos.getDois().doClick();
+			if(e.getKeyChar() == '3')
+				digitos.getTres().doClick();
+			if(e.getKeyChar() == '4')
+				digitos.getQuatro().doClick();
+			if(e.getKeyChar() == '5')
+				digitos.getCinco().doClick();
+			if(e.getKeyChar() == '6')
+				digitos.getSeis().doClick();
+			if(e.getKeyChar() == '7')
+				digitos.getSete().doClick();
+			if(e.getKeyChar() == '8')
+				digitos.getOito().doClick();
+			if(e.getKeyChar() == '9')
+				digitos.getNove().doClick();
+			
+//			SINAIS DE ON ATE IGUAL
+			if(e.getKeyChar() == '+')
+				digitos.getMais().doClick();
+			if(e.getKeyChar() == '-')
+				digitos.getMenos().doClick();
+			if(e.getKeyChar() == '*')
+				digitos.getVezes().doClick();
+			if(e.getKeyChar() == '/')
+				digitos.getDividir().doClick();
+			if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				digitos.getIgual().doClick();
+			if(e.getKeyChar() == '.')
+				digitos.getPonto().doClick();
+			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				digitos.getApagar().doClick();
+		}
+		
 	}
 }

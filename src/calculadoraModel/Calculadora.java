@@ -33,7 +33,7 @@ public class Calculadora implements OperacoesI{
 			else soma-=nums;
 		return soma;
 	}
-
+	
 	@Override
 	public double multiplicacao(ArrayList<Double> num) {
 		if(num.size() == 1)
@@ -53,6 +53,10 @@ public class Calculadora implements OperacoesI{
 		for(double nums:num)
 			soma/=nums;
 		return soma;	
+	}
+	
+	public double divisao(double num1, double num2) {
+		return num1 / num1;
 	}
 
 	public boolean isLigada() {
