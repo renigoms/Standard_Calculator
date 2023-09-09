@@ -432,6 +432,7 @@ public class CalculadoraController implements ActionListener {
 								double result = calculadora.divisao(convArrayListString(temporario));
 								temporario.clear();
 								principal.add(String.valueOf(result));
+								unirChars += String.valueOf(chars);
 								continue;
 							}
 

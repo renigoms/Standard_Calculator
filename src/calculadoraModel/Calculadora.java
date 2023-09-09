@@ -19,20 +19,6 @@ public class Calculadora implements OperacoesI{
 			soma+=nums;
 		return soma;
 	}
-
-	@Override
-	public double subtracao(ArrayList<Double> num) {
-
-		if(num.size() == 1)
-			return num.get(0);
-		double soma = num.get(0);
-		num.remove(0);
-		for(double nums:num)
-			if(nums<0)
-				soma+=nums;
-			else soma-=nums;
-		return soma;
-	}
 	
 	@Override
 	public double multiplicacao(ArrayList<Double> num) {
@@ -55,10 +41,6 @@ public class Calculadora implements OperacoesI{
 		return soma;	
 	}
 	
-	public double divisao(double num1, double num2) {
-		return num1 / num1;
-	}
-
 	public boolean isLigada() {
 		return isLigada;
 	}
