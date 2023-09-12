@@ -5,15 +5,8 @@
 
 <br>
 
-<style>
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-</style>
+<p align=center><img src="img/img_calculadora.png" alt="img Calculadora"></p>
 
-<img src="img/img_calculadora.png" alt="img Calculadora" class=center>
+
 
 
