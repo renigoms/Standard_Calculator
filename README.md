@@ -7,7 +7,7 @@
 
 <br>
 
-<div style="text-align: center;">
+<div align=center>
     <img src="img/img_calculadora.png" alt="img Calculadora">
 </div>
 
