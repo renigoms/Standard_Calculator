@@ -327,10 +327,25 @@ public class CalculadoraController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+//		BOTÃO DE RAIZ QUADRADA
 		if (e.getSource() == digitos.getRaiz()) {
-//			LEMBRAR DE FAZER ISSO DEPOIS
-			System.out.println("sou uma raiz");
+			try {
+				if(!areaDeTexto.getText().isEmpty() && calculadora.isLigada()) {
+					if (areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='÷'||
+							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='+'||
+							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='-'||
+							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='x')
+						throw new OperacaoInvalidaException("Operação inválida");
+//					CALCULO DE RAIZ QUADRADA
+					double resultado = Math.sqrt(Double.parseDouble(areaDeTexto.getText()));
+					areaDeTexto.setText(String.valueOf(resultado));
+				}
+			} catch (OperacaoInvalidaException e2) {
+				// TODO: handle exception
+			}
 		}
+		
+//		BOTÃO PONTO
 
 		if (e.getSource() == digitos.getPonto()) {
 			if (calculadora.isLigada()) {
@@ -338,6 +353,8 @@ public class CalculadoraController implements ActionListener {
 					areaDeTexto.setText(".");
 			}
 		}
+		
+//		BOTÃO DE APAGAR
 
 		if (e.getSource() == digitos.getApagar()) {
 			ArrayList<Character> chars = new ArrayList<>();
