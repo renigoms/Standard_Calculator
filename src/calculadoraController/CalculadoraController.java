@@ -561,7 +561,12 @@ public class CalculadoraController implements ActionListener {
 	private class KeyHandler extends KeyAdapter{
 
 		@Override
-		public void keyReleased(KeyEvent e) {
+		public void keyPressed(KeyEvent e) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 //			NÚMEROS DE 0 A 9
 			if(e.getKeyChar() == '0')
 				digitos.getZero().doClick();
