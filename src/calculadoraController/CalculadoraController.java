@@ -547,7 +547,7 @@ public class CalculadoraController implements ActionListener {
 			
 //					OPERAÇÕES:
 					listChars(); //lista de chars na area de texto
-					areaDeTexto.setText(String.valueOf(operacoes()));
+					areaDeTexto.setText(String.format("%.4f", operacoes()));
 					
 				} catch (OperacaoInvalidaException e2) {
 					// TODO: handle exception
