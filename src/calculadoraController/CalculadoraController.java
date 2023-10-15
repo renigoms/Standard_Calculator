@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.lang.model.element.NestingKind;
 import javax.swing.JTextField;
 
 import calculadoraModel.Calculadora;
@@ -24,6 +23,7 @@ public class CalculadoraController implements ActionListener {
 	private Calculadora calculadora;
 	private ResultadosOperacoes resultadosOperacoes;
 	private KeyHandler keyHandler;
+	private boolean isPonto;
 
 	public CalculadoraController(TelaPrincipal telaPrincipal) {
 		super();
@@ -33,6 +33,7 @@ public class CalculadoraController implements ActionListener {
 		this.calculadora = new Calculadora();
 		this.resultadosOperacoes = new ResultadosOperacoes();
 		this.keyHandler = new KeyHandler();
+		this.isPonto = true;
 		control();
 		control2();
 		digitos.getLigar().doClick();
@@ -47,6 +48,7 @@ public class CalculadoraController implements ActionListener {
 
 				calculadora.setLigada(true);
 				areaDeTexto.setText("0");
+				isPonto = true;
 			}
 
 		});
@@ -58,6 +60,7 @@ public class CalculadoraController implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				areaDeTexto.setText("");
 				calculadora.setLigada(false);
+				isPonto = true;
 
 			}
 		});
@@ -69,6 +72,7 @@ public class CalculadoraController implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (calculadora.isLigada()) {
+					isPonto = true;
 					if (!controlCharacEsp("+"))
 						areaDeTexto.setText("+");
 				}
@@ -83,6 +87,7 @@ public class CalculadoraController implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (calculadora.isLigada()) {
+					isPonto = true;
 					if (!controlCharacEsp("-"))
 						areaDeTexto.setText("-");
 				}
@@ -97,6 +102,7 @@ public class CalculadoraController implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (calculadora.isLigada()) {
+					isPonto = true;
 					if (!controlCharacEsp("x"))
 						areaDeTexto.setText("x");
 
@@ -112,6 +118,7 @@ public class CalculadoraController implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (calculadora.isLigada()) {
+					isPonto = true;
 					if (!controlCharacEsp("÷"))
 						areaDeTexto.setText("÷");
 				}
@@ -326,13 +333,12 @@ public class CalculadoraController implements ActionListener {
 		return false;
 	}
 	
-	
-	private boolean pontoUnico() {
-		for (int i = 0; i<areaDeTexto.getText().length();i++)
-			if(areaDeTexto.getText().charAt(i) == '.')
-				return true;
-		return false;
-	}
+	private String formatarResultado(double resultado, String mask) {
+		Locale.setDefault(Locale.US);// padroniza o ponto
+		DecimalFormat df = new DecimalFormat(mask);
+		String resultadoFormatado = df.format(resultado);
+		return resultadoFormatado;
+	} 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -347,7 +353,14 @@ public class CalculadoraController implements ActionListener {
 						throw new OperacaoInvalidaException("Operação inválida");
 //					CALCULO DE RAIZ QUADRADA
 					double resultado = Math.sqrt(Double.parseDouble(areaDeTexto.getText()));
-					areaDeTexto.setText(String.valueOf(resultado));
+					String resultadoString = formatarResultado(resultado, "#.####");
+					for(int i = 0; i<resultadoString.length();i++) {
+						if(resultadoString.charAt(i)=='.') {
+							this.isPonto = false;
+						}
+							
+					}
+					areaDeTexto.setText(resultadoString);
 				}
 			} catch (OperacaoInvalidaException e2) {
 				// TODO: handle exception
@@ -358,9 +371,22 @@ public class CalculadoraController implements ActionListener {
 
 		if (e.getSource() == digitos.getPonto()) {
 			if (calculadora.isLigada()) {
-				if(!pontoUnico())
+				if(this.isPonto) {
+					if(areaDeTexto.getText().isEmpty()) {
+						areaDeTexto.setText("0.");
+						this.isPonto = false;
+						return;
+					}
+					if(areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='+'||
+							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='-'||
+							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='x'||
+							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='÷') {
+						areaDeTexto.setText(areaDeTexto.getText()+"0.");
+					}
 					if (!controlCharacEsp("."))
 						areaDeTexto.setText("0.");
+					this.isPonto = false;
+				}
 			}
 		}
 		
@@ -372,6 +398,15 @@ public class CalculadoraController implements ActionListener {
 			if (!areaDeTexto.getText().isEmpty()) {
 				for (int i = 0; i < areaDeTexto.getText().length(); i++)
 					chars.add(areaDeTexto.getText().charAt(i));
+				
+				if(chars.get(chars.size() - 1) == '.')
+					this.isPonto = true;
+				
+				if(chars.get(chars.size() - 1) =='+'|| chars.get(chars.size() - 1)=='-'||
+						chars.get(chars.size() - 1)=='x'|| chars.get(chars.size() - 1)=='÷') {
+					this.isPonto = false;
+				}
+					
 
 				chars.remove(chars.size() - 1);
 
@@ -381,6 +416,8 @@ public class CalculadoraController implements ActionListener {
 					newchar[i] = chars.get(i);
 
 				areaDeTexto.setText(new String(newchar));
+				
+				
 			}
 		}
 
@@ -537,12 +574,7 @@ public class CalculadoraController implements ActionListener {
 			return calculadora.soma(convArrayListString(principal));
 		}
 		
-		private String formatarResultado(double resultado, String mask) {
-			Locale.setDefault(Locale.US);// padroniza o ponto
-			DecimalFormat df = new DecimalFormat(mask);
-			String resultadoFormatado = df.format(resultado);
-			return resultadoFormatado;
-		} 
+		
 
 
 		@Override
@@ -550,6 +582,7 @@ public class CalculadoraController implements ActionListener {
 			if (!areaDeTexto.getText().isEmpty() && calculadora.isLigada()) {
 
 				try {
+					isPonto = true;
 					if (areaDeTexto.getText().length() == 1 || areaDeTexto.getText().isEmpty()) {
 						return;
 					}
