@@ -4,8 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
+import javax.lang.model.element.NestingKind;
 import javax.swing.JTextField;
 
 import calculadoraModel.Calculadora;
@@ -527,7 +530,12 @@ public class CalculadoraController implements ActionListener {
 			return calculadora.soma(convArrayListString(principal));
 		}
 		
-		
+		private String formatarResultado(double resultado, String mask) {
+			Locale.setDefault(Locale.US);// padroniza o ponto
+			DecimalFormat df = new DecimalFormat(mask);
+			String resultadoFormatado = df.format(resultado);
+			return resultadoFormatado;
+		} 
 
 
 		@Override
@@ -547,7 +555,8 @@ public class CalculadoraController implements ActionListener {
 			
 //					OPERAÇÕES:
 					listChars(); //lista de chars na area de texto
-					areaDeTexto.setText(String.format("%.4f", operacoes()));
+					
+					areaDeTexto.setText(formatarResultado(operacoes(), "#.####"));
 					
 				} catch (OperacaoInvalidaException e2) {
 					// TODO: handle exception
@@ -562,11 +571,6 @@ public class CalculadoraController implements ActionListener {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			try {
-				Thread.sleep(1000);
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
 //			NÚMEROS DE 0 A 9
 			if(e.getKeyChar() == '0')
 				digitos.getZero().doClick();
