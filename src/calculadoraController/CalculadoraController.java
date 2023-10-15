@@ -645,7 +645,7 @@ public class CalculadoraController implements ActionListener {
 				digitos.getDividir().doClick();
 			if(e.getKeyCode() == KeyEvent.VK_ENTER)
 				digitos.getIgual().doClick();
-			if(e.getKeyChar() == '.')
+			if(e.getKeyChar() == '.' || e.getKeyChar() == ',')
 				digitos.getPonto().doClick();
 			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 				digitos.getApagar().doClick();
