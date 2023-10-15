@@ -308,8 +308,7 @@ public class CalculadoraController implements ActionListener {
 			for (int i = 0; i < areaDeTexto.getText().length(); i++)
 				listChars.add(areaDeTexto.getText().charAt(i));
 			
-			if (listChars.get(listChars.size() - 1) == '÷' || listChars.get(listChars.size() - 1) == 'x'
-					|| listChars.get(listChars.size() - 1) == '+' || listChars.get(listChars.size() - 1) == '-') {
+			if (listChars.get(listChars.size() - 1) == dig.charAt(0)) {
 				listChars.remove(listChars.size() - 1);
 
 				char[] newchar = new char[listChars.size()];
@@ -326,7 +325,14 @@ public class CalculadoraController implements ActionListener {
 		}
 		return false;
 	}
-
+	
+	
+	private boolean pontoUnico() {
+		for (int i = 0; i<areaDeTexto.getText().length();i++)
+			if(areaDeTexto.getText().charAt(i) == '.')
+				return true;
+		return false;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -352,8 +358,9 @@ public class CalculadoraController implements ActionListener {
 
 		if (e.getSource() == digitos.getPonto()) {
 			if (calculadora.isLigada()) {
-				if (!controlSegDigEmDiant("."))
-					areaDeTexto.setText(".");
+				if(!pontoUnico())
+					if (!controlCharacEsp("."))
+						areaDeTexto.setText("0.");
 			}
 		}
 		
@@ -555,11 +562,12 @@ public class CalculadoraController implements ActionListener {
 			
 //					OPERAÇÕES:
 					listChars(); //lista de chars na area de texto
-					
 					areaDeTexto.setText(formatarResultado(operacoes(), "#.####"));
 					
 				} catch (OperacaoInvalidaException e2) {
-					// TODO: handle exception
+					e2.printStackTrace();
+				}catch(Exception e3) {
+					e3.printStackTrace();
 				}
 			}
 
