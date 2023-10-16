@@ -269,6 +269,7 @@ public class CalculadoraController implements ActionListener {
 		digitos.getPonto().addKeyListener(keyHandler);
 		digitos.getLigar().addKeyListener(keyHandler);
 		digitos.getApagarTudo().addKeyListener(keyHandler);
+		digitos.getRaiz().addKeyListener(keyHandler);
 //		NÚMEROS DE 0 A 9
 		digitos.getZero().addKeyListener(keyHandler);
 		digitos.getUm().addKeyListener(keyHandler);
@@ -649,6 +650,7 @@ public class CalculadoraController implements ActionListener {
 				digitos.getPonto().doClick();
 			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 				digitos.getApagar().doClick();
+			
 		}
 		
 	}
