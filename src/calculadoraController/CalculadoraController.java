@@ -596,7 +596,13 @@ public class CalculadoraController implements ActionListener {
 			
 //					OPERAÇÕES:
 					listChars(); //lista de chars na area de texto
-					areaDeTexto.setText(formatarResultado(operacoes(), "#.####"));
+					String resultadoString = formatarResultado(operacoes(), "#.####");
+					for(int i = 0; i<resultadoString.length();i++) {
+						if(resultadoString.charAt(i)=='.') {
+							isPonto = false;
+						}
+					}
+					areaDeTexto.setText(resultadoString);
 					
 				} catch (OperacaoInvalidaException e2) {
 					e2.printStackTrace();
