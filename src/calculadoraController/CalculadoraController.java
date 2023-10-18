@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import calculadoraModel.Calculadora;
@@ -73,8 +74,7 @@ public class CalculadoraController implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				if (calculadora.isLigada()) {
 					isPonto = true;
-					if (!controlCharacEsp("+"))
-						areaDeTexto.setText("+");
+					controlCharacEsp("+");
 				}
 
 			}
@@ -103,8 +103,7 @@ public class CalculadoraController implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				if (calculadora.isLigada()) {
 					isPonto = true;
-					if (!controlCharacEsp("x"))
-						areaDeTexto.setText("x");
+					controlCharacEsp("x");
 
 				}
 
@@ -119,8 +118,8 @@ public class CalculadoraController implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				if (calculadora.isLigada()) {
 					isPonto = true;
-					if (!controlCharacEsp("÷"))
-						areaDeTexto.setText("÷");
+					controlCharacEsp("÷");
+						
 				}
 
 			}
@@ -316,7 +315,10 @@ public class CalculadoraController implements ActionListener {
 			for (int i = 0; i < areaDeTexto.getText().length(); i++)
 				listChars.add(areaDeTexto.getText().charAt(i));
 			
-			if (listChars.get(listChars.size() - 1) == dig.charAt(0)) {
+			if (listChars.get(listChars.size() - 1) == '÷' || listChars.get(listChars.size() - 1) == 'x'
+					|| listChars.get(listChars.size() - 1) == '+' || listChars.get(listChars.size() - 1) == '-'
+					|| listChars.get(listChars.size() - 1) == '.'
+					) {
 				listChars.remove(listChars.size() - 1);
 
 				char[] newchar = new char[listChars.size()];
@@ -350,7 +352,7 @@ public class CalculadoraController implements ActionListener {
 					if (areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='÷'||
 							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='+'||
 							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='-'||
-							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='x')
+							areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='x' || areaDeTexto.getText().charAt(0)=='-')
 						throw new OperacaoInvalidaException("Operação inválida");
 //					CALCULO DE RAIZ QUADRADA
 					double resultado = Math.sqrt(Double.parseDouble(areaDeTexto.getText()));
@@ -364,7 +366,7 @@ public class CalculadoraController implements ActionListener {
 					areaDeTexto.setText(resultadoString);
 				}
 			} catch (OperacaoInvalidaException e2) {
-				// TODO: handle exception
+				
 			}
 		}
 		
@@ -394,7 +396,7 @@ public class CalculadoraController implements ActionListener {
 //		BOTÃO DE APAGAR
 
 		if (e.getSource() == digitos.getApagar()) {
-			ArrayList<Character> chars = new ArrayList<>();
+			ArrayList<Character> chars = new ArrayList<>(), chars2 = new ArrayList<>();
 
 			if (!areaDeTexto.getText().isEmpty()) {
 				for (int i = 0; i < areaDeTexto.getText().length(); i++)
@@ -405,7 +407,20 @@ public class CalculadoraController implements ActionListener {
 				
 				if(chars.get(chars.size() - 1) =='+'|| chars.get(chars.size() - 1)=='-'||
 						chars.get(chars.size() - 1)=='x'|| chars.get(chars.size() - 1)=='÷') {
-					this.isPonto = false;
+					boolean contSinal = false;
+					for(int i = chars.size() - 1;;i--) {
+						chars2.add(chars.get(i));
+						if(chars2.contains('+') || chars2.contains('-')||
+								chars2.contains('x')|| chars2.contains('÷'))
+							contSinal = true;
+						
+						if(chars2.contains('+') || chars2.contains('-')||
+								chars2.contains('x')|| chars2.contains('÷') && contSinal) {
+							if(chars2.contains('.')) 
+								this.isPonto = false;
+							break;
+						}
+					}
 				}
 					
 
@@ -656,6 +671,8 @@ public class CalculadoraController implements ActionListener {
 				digitos.getPonto().doClick();
 			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 				digitos.getApagar().doClick();
+			if(e.getKeyChar() == 'q' || e.getKeyChar() == 'Q')
+				digitos.getRaiz().doClick();
 			
 		}
 		
