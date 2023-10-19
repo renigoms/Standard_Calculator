@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import calculadoraModel.Calculadora;
@@ -416,9 +415,12 @@ public class CalculadoraController implements ActionListener {
 						
 						if(chars2.contains('+') || chars2.contains('-')||
 								chars2.contains('x')|| chars2.contains('÷') && contSinal) {
-							if(chars2.contains('.')) 
+							if(chars2.contains('.')) {
 								this.isPonto = false;
-							break;
+								break;
+							}
+								
+							
 						}
 					}
 				}
@@ -451,148 +453,6 @@ public class CalculadoraController implements ActionListener {
 				caracteres.add(areaDeTexto.getText().charAt(i));
 		}
 		
-		
-		private ArrayList<Double> convArrayListString(ArrayList<String> stringInput) {
-			ArrayList<Double> numOperacao = new ArrayList<>();
-			for(String str:stringInput) {
-				numOperacao.add(Double.parseDouble(str));
-			}
-			return numOperacao;
-		}
-		
-		private double operacoes() {
-
-			String unirChars = "+";
-
-			boolean inicioNegativo = caracteres.get(0) == '-';
-
-			ArrayList<String> principal = new ArrayList<>();
-			ArrayList<String> temporario = new ArrayList<>();
-
-			boolean isSomSub = true, isMultDiv = false;
-			boolean isSomSubAnterior = false, isMultDivAnterior = false;
-
-
-			for (Character chars : caracteres) {
-				if (inicioNegativo) {
-					unirChars = "";
-					unirChars += String.valueOf(chars);
-					isSomSub = true;
-					inicioNegativo = false;
-					continue;
-				}
-
-				if (chars == '+' || chars == '-') {
-					isMultDivAnterior = isMultDiv;
-					isMultDiv = false;
-					isSomSubAnterior = isSomSub;
-					isSomSub = true;
-
-					if (isSomSubAnterior && isSomSub) {
-						principal.add(unirChars);
-						unirChars = "";
-						unirChars += String.valueOf(chars);
-						continue;
-					}
-					if (isMultDivAnterior && isSomSub) {
-						temporario.add(unirChars);
-						unirChars = "";
-						if (temporario.size() == 3) {
-							if (temporario.get(1).equals("x")) {
-								temporario.remove(1);
-								double result = calculadora.multiplicacao(convArrayListString(temporario));
-								temporario.clear();
-								principal.add(String.valueOf(result));
-								unirChars += String.valueOf(chars);
-								continue;
-							}
-
-							if (temporario.get(1).equals("÷")) {
-								temporario.remove(1);
-								double result = calculadora.divisao(convArrayListString(temporario));
-								temporario.clear();
-								principal.add(String.valueOf(result));
-								unirChars += String.valueOf(chars);
-								continue;
-							}
-
-						}
-					}
-
-				}
-
-				if(chars == 'x' || chars == '÷'){
-					isMultDivAnterior = isMultDiv;
-					isMultDiv = true;
-					isSomSubAnterior = isSomSub;
-					isSomSub = false;
-
-					if(isSomSubAnterior && isMultDiv){
-						temporario.add(unirChars);
-						unirChars="";
-						unirChars += String.valueOf(chars);
-						temporario.add(unirChars);
-						unirChars="";
-						continue;
-
-					}
-
-					if(isMultDivAnterior && isMultDiv){
-						temporario.add(unirChars);
-						unirChars="";
-						if(temporario.size() == 3){
-							if(temporario.get(1).equals("x")){
-								temporario.remove(1);
-								double result = calculadora.multiplicacao(convArrayListString(temporario));
-								temporario.clear();
-								temporario.add(String.valueOf(result));
-								if(chars == 'x' || chars == '÷'){
-									unirChars += String.valueOf(chars);
-									temporario.add(unirChars);
-									unirChars="";
-								}
-								continue;
-							}if(temporario.get(1).equals("÷")){
-								temporario.remove(1);
-								double result = calculadora.divisao(convArrayListString(temporario));
-								temporario.clear();
-								temporario.add(String.valueOf(result));
-								if(chars == 'x' || chars == '÷'){
-									unirChars += String.valueOf(chars);
-									temporario.add(unirChars);
-									unirChars="";
-								}
-								continue;
-							}
-						}
-					}
-				}
-				unirChars += String.valueOf(chars);
-			}
-
-			if(isSomSub)
-				principal.add(unirChars);
-			if(isMultDiv)
-				temporario.add(unirChars);
-
-			if(temporario.size() == 3){
-				if (temporario.get(1).equals("x")) {
-					temporario.remove(1);
-					double result = calculadora.multiplicacao(convArrayListString(temporario));
-					principal.add(String.valueOf(result));
-				}
-				if (temporario.get(1).equals("÷")) {
-					temporario.remove(1);
-					double result = calculadora.divisao(convArrayListString(temporario));
-					principal.add(String.valueOf(result));
-				}
-			}
-			return calculadora.soma(convArrayListString(principal));
-		}
-		
-		
-
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (!areaDeTexto.getText().isEmpty() && calculadora.isLigada()) {
@@ -611,7 +471,7 @@ public class CalculadoraController implements ActionListener {
 			
 //					OPERAÇÕES:
 					listChars(); //lista de chars na area de texto
-					String resultadoString = formatarResultado(operacoes(), "#.####");
+					String resultadoString = formatarResultado(calculadora.executarOperacoes(caracteres), "#.####");
 					for(int i = 0; i<resultadoString.length();i++) {
 						if(resultadoString.charAt(i)=='.') {
 							isPonto = false;
