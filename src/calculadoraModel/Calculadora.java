@@ -60,15 +60,14 @@ public class Calculadora implements OperacoesI{
 	@Override
 	public double executarOperacoes(ArrayList<Character> caracteres) {
 		String unirChars = "+";
+		
+		boolean inicioNegativo = caracteres.get(0) == '-', 
+				isSomSub = true, isMultDiv = false,
+				isSomSubAnterior = false, isMultDivAnterior = false;
+		
+		double result = 0;
 
-		boolean inicioNegativo = caracteres.get(0) == '-';
-
-		ArrayList<String> principal = new ArrayList<>();
-		ArrayList<String> temporario = new ArrayList<>();
-
-		boolean isSomSub = true, isMultDiv = false;
-		boolean isSomSubAnterior = false, isMultDivAnterior = false;
-
+		ArrayList<String> principal = new ArrayList<>(),temporario = new ArrayList<>();
 
 		for (Character chars : caracteres) {
 			if (inicioNegativo) {
@@ -97,7 +96,7 @@ public class Calculadora implements OperacoesI{
 					if (temporario.size() == 3) {
 						if (temporario.get(1).equals("x")) {
 							temporario.remove(1);
-							double result = multiplicacao(convArrayListString(temporario));
+							result = multiplicacao(convArrayListString(temporario));
 							temporario.clear();
 							principal.add(String.valueOf(result));
 							unirChars += String.valueOf(chars);
@@ -106,7 +105,7 @@ public class Calculadora implements OperacoesI{
 
 						if (temporario.get(1).equals("÷")) {
 							temporario.remove(1);
-							double result = divisao(convArrayListString(temporario));
+							result = divisao(convArrayListString(temporario));
 							temporario.clear();
 							principal.add(String.valueOf(result));
 							unirChars += String.valueOf(chars);
@@ -140,7 +139,7 @@ public class Calculadora implements OperacoesI{
 					if(temporario.size() == 3){
 						if(temporario.get(1).equals("x")){
 							temporario.remove(1);
-							double result = multiplicacao(convArrayListString(temporario));
+							result = multiplicacao(convArrayListString(temporario));
 							temporario.clear();
 							temporario.add(String.valueOf(result));
 							if(chars == 'x' || chars == '÷'){
@@ -151,7 +150,7 @@ public class Calculadora implements OperacoesI{
 							continue;
 						}if(temporario.get(1).equals("÷")){
 							temporario.remove(1);
-							double result = divisao(convArrayListString(temporario));
+							result = divisao(convArrayListString(temporario));
 							temporario.clear();
 							temporario.add(String.valueOf(result));
 							if(chars == 'x' || chars == '÷'){
@@ -175,19 +174,15 @@ public class Calculadora implements OperacoesI{
 		if(temporario.size() == 3){
 			if (temporario.get(1).equals("x")) {
 				temporario.remove(1);
-				double result = multiplicacao(convArrayListString(temporario));
+				result = multiplicacao(convArrayListString(temporario));
 				principal.add(String.valueOf(result));
 			}
 			if (temporario.get(1).equals("÷")) {
 				temporario.remove(1);
-				double result = divisao(convArrayListString(temporario));
+				result = divisao(convArrayListString(temporario));
 				principal.add(String.valueOf(result));
 			}
 		}
 		return soma(convArrayListString(principal));
 	}
-	
-	
-	
-	
 }
