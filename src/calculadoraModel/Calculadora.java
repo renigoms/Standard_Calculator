@@ -49,16 +49,16 @@ public class Calculadora implements OperacoesI{
 		this.isLigada = isLigada;
 	}
 	
-	public ArrayList<Double> convArrayListString(ArrayList<String> stringInput) {
+	private ArrayList<Double> convArrayListString(ArrayList<String> stringInput) {
 		ArrayList<Double> numOperacao = new ArrayList<>();
 		for(String str:stringInput) {
 			numOperacao.add(Double.parseDouble(str));
 		}
 		return numOperacao;
 	}
-	
-	public double executarOperacoes(ArrayList<Character> caracteres) {
 
+	@Override
+	public double executarOperacoes(ArrayList<Character> caracteres) {
 		String unirChars = "+";
 
 		boolean inicioNegativo = caracteres.get(0) == '-';
@@ -188,7 +188,6 @@ public class Calculadora implements OperacoesI{
 	}
 	
 	
-
 	
-
+	
 }
