@@ -10,5 +10,6 @@ public interface OperacoesI {
 	
 	public double divisao(ArrayList<Double>num);
 	
+	public double executarOperacoes(ArrayList<Character> caracteres);
 	
 }
