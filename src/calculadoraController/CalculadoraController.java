@@ -396,10 +396,15 @@ public class CalculadoraController implements ActionListener {
 
 		if (e.getSource() == digitos.getApagar()) {
 			ArrayList<Character> chars = new ArrayList<>(), chars2 = new ArrayList<>();
+			boolean isMenosSinal = false;
 
 			if (!areaDeTexto.getText().isEmpty()) {
 				for (int i = 0; i < areaDeTexto.getText().length(); i++)
 					chars.add(areaDeTexto.getText().charAt(i));
+				
+				if (chars.get(0) == '-') isMenosSinal = true;
+				
+				else chars.add(0,'+');
 				
 				if(chars.get(chars.size() - 1) == '.')
 					this.isPonto = true;
@@ -407,14 +412,14 @@ public class CalculadoraController implements ActionListener {
 				if(chars.get(chars.size() - 1) =='+'|| chars.get(chars.size() - 1)=='-'||
 						chars.get(chars.size() - 1)=='x'|| chars.get(chars.size() - 1)=='÷') {
 					boolean contSinal = false;
-					for(int i = chars.size() - 1;;i--) {
+					for(int i = chars.size() - 1;i>=0;i--) {
 						chars2.add(chars.get(i));
 						if(chars2.contains('+') || chars2.contains('-')||
 								chars2.contains('x')|| chars2.contains('÷'))
 							contSinal = true;
 						
-						if(chars2.contains('+') || chars2.contains('-')||
-								chars2.contains('x')|| chars2.contains('÷') && contSinal) {
+						if(chars.get(i)=='+'|| chars.get(i)=='-'||
+								chars.get(i)=='x'|| chars.get(i)=='÷' && contSinal) {
 							if(chars2.contains('.')) {
 								this.isPonto = false;
 								break;
@@ -427,6 +432,8 @@ public class CalculadoraController implements ActionListener {
 					
 
 				chars.remove(chars.size() - 1);
+				if (!isMenosSinal)
+					chars.remove(0);
 
 				char[] newchar = new char[chars.size()];
 
