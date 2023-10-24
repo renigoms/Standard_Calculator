@@ -396,7 +396,7 @@ public class CalculadoraController implements ActionListener {
 
 		if (e.getSource() == digitos.getApagar()) {
 			ArrayList<Character> chars = new ArrayList<>(), chars2 = new ArrayList<>();
-			boolean isMenosSinal = false;
+			boolean isMenosSinal = false, sinalfinal = false, sinalInicial = false;
 
 			if (!areaDeTexto.getText().isEmpty()) {
 				for (int i = 0; i < areaDeTexto.getText().length(); i++)
@@ -411,21 +411,24 @@ public class CalculadoraController implements ActionListener {
 				
 				if(chars.get(chars.size() - 1) =='+'|| chars.get(chars.size() - 1)=='-'||
 						chars.get(chars.size() - 1)=='x'|| chars.get(chars.size() - 1)=='÷') {
-					boolean contSinal = false;
 					for(int i = chars.size() - 1;i>=0;i--) {
 						chars2.add(chars.get(i));
-						if(chars2.contains('+') || chars2.contains('-')||
-								chars2.contains('x')|| chars2.contains('÷'))
-							contSinal = true;
+						if(chars.get(i)=='+'|| chars.get(i)=='-'||
+								chars.get(i)=='x'|| chars.get(i)=='÷') {
+							if(!sinalInicial) {
+								sinalInicial = true;
+								continue;
+							}
+						}
 						
 						if(chars.get(i)=='+'|| chars.get(i)=='-'||
-								chars.get(i)=='x'|| chars.get(i)=='÷' && contSinal) {
+								chars.get(i)=='x'|| chars.get(i)=='÷' && sinalInicial) {
+							sinalfinal = true;
 							if(chars2.contains('.')) {
 								this.isPonto = false;
 								break;
 							}
-								
-							
+							if (sinalfinal) break;	
 						}
 					}
 				}
