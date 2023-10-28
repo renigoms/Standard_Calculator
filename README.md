@@ -8,7 +8,7 @@
 <br>
 
 <div align=center>
-    <img src="img/img_calculadora.png" alt="img Calculadora">
+    <img src="src/main/img/img_calculadora.png" alt="img Calculadora">
 </div>
 
 
