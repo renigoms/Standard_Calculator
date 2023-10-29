@@ -33,10 +33,10 @@ public class Calculadora implements OperacoesI{
     public double multiplicacao(ArrayList<Double> num) {
         if(num.size() == 1)
             return num.get(0);
-        double soma = 1;
+        double mult = 1;
         for(double nums:num)
-            soma*=nums;
-        return soma;
+            mult*=nums;
+        return mult;
     }
 
     /**
@@ -48,11 +48,11 @@ public class Calculadora implements OperacoesI{
     public double divisao(ArrayList<Double> num) {
         if(num.size() == 1)
             return num.get(0);
-        double soma = num.get(0);
+        double div = num.get(0);
         num.remove(0);
         for(double nums:num)
-            soma/=nums;
-        return soma;
+            div/=nums;
+        return div;
     }
 
     /**
