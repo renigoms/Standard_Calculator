@@ -163,7 +163,7 @@ public class PainelDeDigitos extends JPanel{
         return ligar;
     }
 
-    public JButton getApagarTudo() {
+    public JButton getButtonOff() {
         return apagarTudo;
     }
 
