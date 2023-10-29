@@ -24,6 +24,8 @@ public class CalculadoraController implements ActionListener {
     private ResultadosOperacoes resultadosOperacoes;
     private KeyHandler keyHandler;
     private boolean isPonto;
+    private String text;
+    private String text1;
 
     public CalculadoraController(TelaPrincipal telaPrincipal) {
         super();
@@ -39,29 +41,42 @@ public class CalculadoraController implements ActionListener {
         digitos.getLigar().doClick();
     }
 
+
+    private void ligarDesligarCalculadora(boolean isLigado, String digitoInicial){
+        calculadora.setLigada(isLigado);
+        areaDeTexto.setText(digitoInicial);
+        isPonto = true;
+    }
+//    CONTROLE DE CARACTERES NUMERICOS
+    private void controlCaracteresNomais(String caractere){
+        if (calculadora.isLigada()) {
+            controlFirstDig();
+            if (!controlSegDigEmDiant(caractere))
+                areaDeTexto.setText(caractere);
+        }
+    }
+    //    CONTROLE DOS CARACTERES ESPECIAIS
+    private void controlCaracteresEspeciais(String caractere){
+        if (calculadora.isLigada()) {
+            isPonto = true;
+            controlCharacEsp(caractere);
+        }
+    }
+
     private void control() {
 //		BOTÃO ON
         digitos.getLigar().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                calculadora.setLigada(true);
-                areaDeTexto.setText("0");
-                isPonto = true;
+                ligarDesligarCalculadora(true, "0");
             }
-
         });
 
 //		BOTÃO OFF
-        digitos.getApagarTudo().addActionListener(new ActionListener() {
-
+        digitos.getButtonOff().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                areaDeTexto.setText("");
-                calculadora.setLigada(false);
-                isPonto = true;
-
+                ligarDesligarCalculadora(false, "");
             }
         });
 
@@ -71,11 +86,7 @@ public class CalculadoraController implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    isPonto = true;
-                    controlCharacEsp("+");
-                }
-
+                controlCaracteresEspeciais("+");
             }
         });
 
@@ -97,153 +108,81 @@ public class CalculadoraController implements ActionListener {
 //		BOTÃO MULTIPLICAÇÃO
 
         digitos.getVezes().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    isPonto = true;
-                    controlCharacEsp("x");
-
-                }
-
+                controlCaracteresEspeciais("x");
             }
         });
-
 //		BOTÃO DIVISÃO
-
         digitos.getDividir().addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    isPonto = true;
-                    controlCharacEsp("÷");
-
-                }
-
+               controlCaracteresEspeciais("÷");
             }
         });
 
 //		NÚMEROS DE 0 AO 9
 
         digitos.getUm().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("1"))
-                        areaDeTexto.setText("1");
-                }
-
+                controlCaracteresNomais("1");
             }
         });
         digitos.getDois().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("2"))
-                        areaDeTexto.setText("2");
-                }
-
+                controlCaracteresNomais("2");
             }
         });
         digitos.getTres().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("3"))
-                        areaDeTexto.setText("3");
-                }
+                controlCaracteresNomais("3");
 
             }
         });
         digitos.getQuatro().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("4"))
-                        areaDeTexto.setText("4");
-                }
-
+               controlCaracteresNomais("4");
             }
         });
         digitos.getCinco().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("5"))
-                        areaDeTexto.setText("5");
-                }
-
+               controlCaracteresNomais("5");
             }
         });
         digitos.getSeis().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("6"))
-                        areaDeTexto.setText("6");
-                }
-
+               controlCaracteresNomais("6");
             }
         });
         digitos.getSete().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("7"))
-                        areaDeTexto.setText("7");
-                }
-
+               controlCaracteresNomais("7");
             }
         });
         digitos.getOito().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("8"))
-                        areaDeTexto.setText("8");
-                }
-
+               controlCaracteresNomais("8");
             }
         });
         digitos.getNove().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("9"))
-                        areaDeTexto.setText("9");
-                }
-
+                controlCaracteresNomais("9");
             }
         });
         digitos.getZero().addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    controlFirstDig();
-                    if (!controlSegDigEmDiant("0"))
-                        areaDeTexto.setText("0");
-                }
-
+                controlCaracteresNomais("0");
             }
         });
     }
@@ -266,7 +205,7 @@ public class CalculadoraController implements ActionListener {
         digitos.getApagar().addKeyListener(keyHandler);
         digitos.getPonto().addKeyListener(keyHandler);
         digitos.getLigar().addKeyListener(keyHandler);
-        digitos.getApagarTudo().addKeyListener(keyHandler);
+        digitos.getButtonOff().addKeyListener(keyHandler);
         digitos.getRaiz().addKeyListener(keyHandler);
 //		NÚMEROS DE 0 A 9
         digitos.getZero().addKeyListener(keyHandler);
@@ -299,6 +238,12 @@ public class CalculadoraController implements ActionListener {
             areaDeTexto.setText(areaDeTexto.getText() + dig);
             return true;
         }
+        return false;
+    }
+    private boolean isSinaisEspeciaisInEnd(String text){
+        if(text.charAt(text.length()-1)=='÷'|| text.charAt(text.length()-1)=='+'||
+                text.charAt(text.length()-1)=='-'|| text.charAt(text.length()-1)=='x')
+            return true;
         return false;
     }
     /**
@@ -335,6 +280,14 @@ public class CalculadoraController implements ActionListener {
         return false;
     }
 
+    /**
+     *
+     * @param resultado
+     * @param mask
+     * @return Retorna uma String formatada, de acordo com a máscara especificada,
+     * do resultado passado.
+     */
+
     private String formatarResultado(double resultado, String mask) {
         Locale.setDefault(Locale.US);// padroniza o ponto
         DecimalFormat df = new DecimalFormat(mask);
@@ -348,19 +301,13 @@ public class CalculadoraController implements ActionListener {
         if (e.getSource() == digitos.getRaiz()) {
             try {
                 if(!areaDeTexto.getText().isEmpty() && calculadora.isLigada()) {
-                    if (areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='÷'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='+'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='-'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='x' || areaDeTexto.getText().charAt(0)=='-')
+                    if (isSinaisEspeciaisInEnd(areaDeTexto.getText()) || areaDeTexto.getText().charAt(0)=='-')
                         throw new OperacaoInvalidaException("Operação inválida");
 //					CALCULO DE RAIZ QUADRADA
                     double resultado = Math.sqrt(Double.parseDouble(areaDeTexto.getText()));
                     String resultadoString = formatarResultado(resultado, "#.####");
                     for(int i = 0; i<resultadoString.length();i++) {
-                        if(resultadoString.charAt(i)=='.') {
-                            this.isPonto = false;
-                        }
-
+                        this.isPonto = resultadoString.charAt(i)=='.' ? false:true;
                     }
                     areaDeTexto.setText(resultadoString);
                 }
@@ -379,10 +326,7 @@ public class CalculadoraController implements ActionListener {
                         this.isPonto = false;
                         return;
                     }
-                    if(areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='+'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='-'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='x'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='÷') {
+                    if(isSinaisEspeciaisInEnd(areaDeTexto.getText())) {
                         areaDeTexto.setText(areaDeTexto.getText()+"0.");
                     }
                     if (!controlCharacEsp("."))
@@ -432,8 +376,6 @@ public class CalculadoraController implements ActionListener {
                         }
                     }
                 }
-
-
                 chars.remove(chars.size() - 1);
                 if (!isMenosSinal)
                     chars.remove(0);
@@ -444,8 +386,6 @@ public class CalculadoraController implements ActionListener {
                     newchar[i] = chars.get(i);
 
                 areaDeTexto.setText(new String(newchar));
-
-
             }
         }
 
@@ -473,10 +413,7 @@ public class CalculadoraController implements ActionListener {
                         return;
                     }
 
-                    if (areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='÷'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='+'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='-'||
-                            areaDeTexto.getText().charAt(areaDeTexto.getText().length()-1)=='x')
+                    if (isSinaisEspeciaisInEnd(areaDeTexto.getText()))
                         throw new OperacaoInvalidaException("Operação inválida");
 
 //					OPERAÇÕES:
@@ -497,54 +434,70 @@ public class CalculadoraController implements ActionListener {
             }
 
         }
-
     }
-
     private class KeyHandler extends KeyAdapter{
-
         @Override
         public void keyPressed(KeyEvent e) {
 //			NÚMEROS DE 0 A 9
-            if(e.getKeyChar() == '0')
-                digitos.getZero().doClick();
-            if(e.getKeyChar() == '1')
-                digitos.getUm().doClick();
-            if(e.getKeyChar() == '2')
-                digitos.getDois().doClick();
-            if(e.getKeyChar() == '3')
-                digitos.getTres().doClick();
-            if(e.getKeyChar() == '4')
-                digitos.getQuatro().doClick();
-            if(e.getKeyChar() == '5')
-                digitos.getCinco().doClick();
-            if(e.getKeyChar() == '6')
-                digitos.getSeis().doClick();
-            if(e.getKeyChar() == '7')
-                digitos.getSete().doClick();
-            if(e.getKeyChar() == '8')
-                digitos.getOito().doClick();
-            if(e.getKeyChar() == '9')
-                digitos.getNove().doClick();
-
-//			SINAIS DE ON ATE IGUAL
-            if(e.getKeyChar() == '+')
-                digitos.getMais().doClick();
-            if(e.getKeyChar() == '-')
-                digitos.getMenos().doClick();
-            if(e.getKeyChar() == '*')
-                digitos.getVezes().doClick();
-            if(e.getKeyChar() == '/')
-                digitos.getDividir().doClick();
-            if(e.getKeyCode() == KeyEvent.VK_ENTER)
-                digitos.getIgual().doClick();
-            if(e.getKeyChar() == '.' || e.getKeyChar() == ',')
-                digitos.getPonto().doClick();
-            if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
-                digitos.getApagar().doClick();
-            if(e.getKeyChar() == 'r' || e.getKeyChar() == 'R')
-                digitos.getRaiz().doClick();
-
+            switch (e.getKeyChar()){
+                case '0':
+                    digitos.getZero().doClick();
+                    break;
+                case '1':
+                    digitos.getUm().doClick();
+                    break;
+                case '2':
+                    digitos.getDois().doClick();
+                    break;
+                case '3':
+                    digitos.getTres().doClick();
+                    break;
+                case '4':
+                    digitos.getQuatro().doClick();
+                    break;
+                case '5':
+                    digitos.getCinco().doClick();
+                    break;
+                case '6':
+                    digitos.getSeis().doClick();
+                    break;
+                case '7':
+                    digitos.getSete().doClick();
+                    break;
+                case '8':
+                    digitos.getOito().doClick();
+                    break;
+                case '9':
+                    digitos.getNove().doClick();
+                    break;
+    //			SINAIS DE ON ATE IGUAL
+                case '+':
+                    digitos.getMais().doClick();
+                    break;
+                case '-':
+                    digitos.getMenos().doClick();
+                    break;
+                case '*':
+                    digitos.getVezes().doClick();
+                    break;
+                case '/':
+                    digitos.getDividir().doClick();
+                    break;
+                case KeyEvent.VK_ENTER:
+                    digitos.getIgual().doClick();
+                    break;
+                case '.':
+                case ',':
+                    digitos.getPonto().doClick();
+                    break;
+                case KeyEvent.VK_BACK_SPACE:
+                    digitos.getApagar().doClick();
+                    break;
+                case 'r':
+                case 'R':
+                    digitos.getRaiz().doClick();
+                    break;
+            }
         }
-
     }
 }

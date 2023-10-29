@@ -177,6 +177,7 @@ public class Calculadora implements OperacoesI{
                 isSomSubAnterior = isSomSub;
                 isSomSub = false;
 
+//                CASE +/-12345X/÷
                 if(isSomSubAnterior && isMultDiv){
                     temporario.add(unirChars);
                     unirChars="";
@@ -186,7 +187,7 @@ public class Calculadora implements OperacoesI{
                     continue;
 
                 }
-
+//                CASE X/÷123456X/÷
                 if(isMultDivAnterior && isMultDiv){
                     temporario.add(unirChars);
                     unirChars="";
@@ -216,13 +217,14 @@ public class Calculadora implements OperacoesI{
                     }
                 }
             }
+//            CASO O CHAR SEJA QUALQUER OUTRA COISA ELE É ADICIONADO DIRETAMENTE
             unirChars += String.valueOf(chars);
         }
-
+//      ADICIONANDO O ULTIMO CHAR DA LISTA DE CARACTERES À LISTA PRINCIPAL
         if(isSomSub)  principal.add(unirChars);
 
         if(isMultDiv) temporario.add(unirChars);
-
+//        EXECUTANDO MULTIPLICAÇÕES OU DIVISÕES DA PONTA FINAL DA LISTA DE CARACTERES
         if(temporario.size() == 3){
             switch (temporario.get(1)){
                 case "x":
@@ -235,6 +237,10 @@ public class Calculadora implements OperacoesI{
                     break;
             }
         }
+        /*
+        RETORNA UMA SOMA FINAL COM NUMEROS POSITIVOS E NEGATIVOS E OS RESULTADOS
+        DAS MULTIPLICAÇÕES E DIVISÕES
+         */
         return soma(convArrayListString(principal));
     }
 
