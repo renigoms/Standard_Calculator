@@ -18,7 +18,7 @@ public class TelaPrincipal extends JFrame{
     public TelaPrincipal() {
         super("Calculadora");
         setSize(280,275);
-        setIconImage(new ImageIcon("img/icone_calculadora.png").getImage());
+        setIconImage(new ImageIcon("src/main/img/icone_calculadora.png").getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);

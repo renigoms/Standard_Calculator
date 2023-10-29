@@ -80,7 +80,7 @@ public class PainelDeDigitos extends JPanel{
         zero = new JButton("0");
         add(zero);
 
-        apagar = new JButton(new ImageIcon("img/apagarCalculadora.png"));
+        apagar = new JButton(new ImageIcon("src/main/img/apagarCalculadora.png"));
         apagar.setBackground(color);
         add(apagar);
 
