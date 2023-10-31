@@ -79,8 +79,6 @@ public class Calculadora implements OperacoesI{
         temporario.remove(1);
         return divisao(convArrayListString(temporario));
     }
-
-
     /**
      *
      * @param caracteres — > ArrayList com a equação a ser calculada.
@@ -90,7 +88,7 @@ public class Calculadora implements OperacoesI{
     @Override
     public double executarOperacoes(ArrayList<Character> caracteres) {
         // DEFINIÇÃO DA VARIÁVEL UNIRCHAR (CHAR ÚNICO) TENDO COMO CHAR INICIAL '+'
-        String unirChars = "+";
+        StringBuilder unirChars = new StringBuilder("+");
         // DEFINIÇÃO DE TODAS AS BOOLEANAS NECESSÁRIAS AO MÉTODO
         boolean inicioNegativo = caracteres.get(0) == '-',
                 isSomSub = true, isMultDiv = false,
@@ -109,10 +107,10 @@ public class Calculadora implements OperacoesI{
             // AQUI É FEITA A VERIFICAÇÃO DE SINAL NEGATIVO NO PRIMEIRO NÚMERO.
             if (inicioNegativo) {
                 // CASO A VERIFICAÇÃO SEJA POSITIVA UNICHAR É LIMPO.
-                unirChars = "";
+                unirChars = new StringBuilder();
                 // E ESSE SINAL NEGATIVO ('-') É INCORPORADO A UNICHAR
                 // SUBSTITUINDO ('+') ATRIBUIDO NO MOMENTO DE SUA INICIALIZAÇÃO.
-                unirChars += String.valueOf(chars);
+                unirChars.append(String.valueOf(chars));
                 // ATRIBUIMOS TRUE A ISSOMSUB JA QUE '-' REPRESENTA UMA SUBTRAÇÃO
                 isSomSub = true;
                 // FALSE EM INICIONEGATIVO JÁ QUE ESSA VERIFICAÇÃO SÓ DEVE
@@ -135,17 +133,17 @@ public class Calculadora implements OperacoesI{
                 // CASO +/-12345+/-
                 if (isSomSubAnterior && isSomSub) {
 //                    UNICHAR ADICIONADO A LISTA PRINCIPAL
-                    principal.add(unirChars);
+                    principal.add(unirChars.toString());
 //                    LIMPA UNICHAR E ADICIONA O SINAL DE + OU - DE FORMA QUE UNICHAR TENHA SEMPRE UM DESSES
 //                    DOIS NO COMEÇO.
-                    unirChars = "";
-                    unirChars += String.valueOf(chars);
+                    unirChars = new StringBuilder();
+                    unirChars.append(String.valueOf(chars));
                     continue;
                 }
 //               CASO X/÷12345+/-
                 if (isMultDivAnterior && isSomSub) {
-                    temporario.add(unirChars);
-                    unirChars = "";
+                    temporario.add(unirChars.toString());
+                    unirChars = new StringBuilder();
                     /*
                     NESSE CASO QUANDO TEPORARIO ATINGIR TAMANHO 3, ELE SERÁ COMPOSTO DE UM SINAL X/÷
                     NO MEIO E DOIS NÚMEROOS ISSO SERVE PARA SEMPRE REALIZAR AS CONTAS DE DIVISÃO E
@@ -157,13 +155,13 @@ public class Calculadora implements OperacoesI{
                                 result = multiplicacaoPrioritaria(temporario);
                                 temporario.clear();
                                 principal.add(String.valueOf(result));
-                                unirChars += String.valueOf(chars);
+                                unirChars.append(String.valueOf(chars));
                                 continue;
                             case "÷":
                                 result = divisaoPrioritaria(temporario);
                                 temporario.clear();
                                 principal.add(String.valueOf(result));
-                                unirChars += String.valueOf(chars);
+                                unirChars.append(String.valueOf(chars));
                                 continue;
                         }
                     }
@@ -179,18 +177,18 @@ public class Calculadora implements OperacoesI{
 
 //                CASE +/-12345X/÷
                 if(isSomSubAnterior && isMultDiv){
-                    temporario.add(unirChars);
-                    unirChars="";
-                    unirChars += String.valueOf(chars);
-                    temporario.add(unirChars);
-                    unirChars="";
+                    temporario.add(unirChars.toString());
+                    unirChars = new StringBuilder();
+                    unirChars.append(String.valueOf(chars));
+                    temporario.add(unirChars.toString());
+                    unirChars = new StringBuilder();
                     continue;
 
                 }
 //                CASE X/÷123456X/÷
                 if(isMultDivAnterior && isMultDiv){
-                    temporario.add(unirChars);
-                    unirChars="";
+                    temporario.add(unirChars.toString());
+                    unirChars = new StringBuilder();
                     if(temporario.size() == 3){
                         switch (temporario.get(1)){
                             case "x":
@@ -198,9 +196,9 @@ public class Calculadora implements OperacoesI{
                                 temporario.clear();
                                 temporario.add(String.valueOf(result));
                                 if(chars == 'x' || chars == '÷'){
-                                    unirChars += String.valueOf(chars);
-                                    temporario.add(unirChars);
-                                    unirChars="";
+                                    unirChars.append(String.valueOf(chars));
+                                    temporario.add(unirChars.toString());
+                                    unirChars = new StringBuilder();
                                 }
                                 continue;
                             case "÷":
@@ -208,9 +206,9 @@ public class Calculadora implements OperacoesI{
                                 temporario.clear();
                                 temporario.add(String.valueOf(result));
                                 if(chars == 'x' || chars == '÷'){
-                                    unirChars += String.valueOf(chars);
-                                    temporario.add(unirChars);
-                                    unirChars="";
+                                    unirChars.append(String.valueOf(chars));
+                                    temporario.add(unirChars.toString());
+                                    unirChars = new StringBuilder();
                                 }
                                 continue;
                         }
@@ -218,12 +216,12 @@ public class Calculadora implements OperacoesI{
                 }
             }
 //            CASO O CHAR SEJA QUALQUER OUTRA COISA ELE É ADICIONADO DIRETAMENTE
-            unirChars += String.valueOf(chars);
+            unirChars.append(String.valueOf(chars));
         }
 //      ADICIONANDO O ULTIMO CHAR DA LISTA DE CARACTERES À LISTA PRINCIPAL
-        if(isSomSub)  principal.add(unirChars);
+        if(isSomSub)  principal.add(unirChars.toString());
 
-        if(isMultDiv) temporario.add(unirChars);
+        if(isMultDiv) temporario.add(unirChars.toString());
 //        EXECUTANDO MULTIPLICAÇÕES OU DIVISÕES DA PONTA FINAL DA LISTA DE CARACTERES
         if(temporario.size() == 3){
             switch (temporario.get(1)){
