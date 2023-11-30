@@ -280,6 +280,14 @@ public class CalculadoraController implements ActionListener {
         return false;
     }
 
+    private boolean isBigNumber(double number){
+        String strNumber = String.valueOf(number);
+        for (int i = 0; i<strNumber.length(); i++)
+            if (strNumber.charAt(i) == 'E')
+                return true;
+        return false;
+    }
+
     /**
      *
      * @param resultado
@@ -288,11 +296,31 @@ public class CalculadoraController implements ActionListener {
      * do resultado passado.
      */
 
-    private String formatarResultado(double resultado, String mask) {
+    public String formatarResultado(double resultado, String mask) {
         Locale.setDefault(Locale.US);// padroniza o ponto
         DecimalFormat df = new DecimalFormat(mask);
+        if (isBigNumber(resultado)){
+            StringBuilder unionCharResult = new StringBuilder();
+            int cont=0;
+            String strResult = String.valueOf(resultado);
+            while ( strResult.charAt(cont) != '.'){
+                unionCharResult.append(strResult.charAt(cont));
+                cont++;
+            }
+            StringBuilder charResultPosPonto = new StringBuilder(unionCharResult+".");
+            cont = charResultPosPonto.length();
+            for (int i = 0; i<4;i++) {
+                charResultPosPonto.append(strResult.charAt(cont));
+                cont++;
+            }
+
+            return String.valueOf(charResultPosPonto);
+        }
         String resultadoFormatado = df.format(resultado);
+        System.out.println(String.valueOf(resultado));
+        System.out.println(String.valueOf(resultado).length());
         return resultadoFormatado;
+
     }
 
     @Override
