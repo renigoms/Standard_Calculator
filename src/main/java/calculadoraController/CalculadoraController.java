@@ -316,11 +316,7 @@ public class CalculadoraController implements ActionListener {
 
             return String.valueOf(charResultPosPonto);
         }
-        String resultadoFormatado = df.format(resultado);
-        System.out.println(String.valueOf(resultado));
-        System.out.println(String.valueOf(resultado).length());
-        return resultadoFormatado;
-
+       return df.format(resultado);
     }
 
     @Override
