@@ -27,4 +27,6 @@ public class CalculadoraTeste {
     public void executarOperacoes(){
         Assertions.assertEquals("32.4", "%.1f".formatted(calculadora.executarOperacoes(listChars)));
     }
+
+
 }
