@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Calculadora implements OperacoesI{
 
-    private boolean isLigada, isSizeUm;
+    private boolean isLigada;
 
     public Calculadora() {
         isLigada = false;
     }
+
 
     /**
      * @param num
@@ -16,12 +17,10 @@ public class Calculadora implements OperacoesI{
      */
     @Override
     public double soma(ArrayList<Double> num) {
-        if(num.size() == 1)
-            return num.get(0);
         double soma = 0;
         for(Double nums:num)
             soma+=nums;
-        return soma;
+        return num.size() == 1 ? num.get(0) : soma;
     }
 
     /**
@@ -31,12 +30,10 @@ public class Calculadora implements OperacoesI{
      */
     @Override
     public double multiplicacao(ArrayList<Double> num) {
-        if(num.size() == 1)
-            return num.get(0);
         double mult = 1;
         for(double nums:num)
             mult*=nums;
-        return mult;
+        return num.size() == 1 ? num.get(0) : mult;
     }
 
     /**
@@ -46,13 +43,11 @@ public class Calculadora implements OperacoesI{
      */
     @Override
     public double divisao(ArrayList<Double> num) {
-        if(num.size() == 1)
-            return num.get(0);
         double div = num.get(0);
         num.remove(0);
         for(double nums:num)
             div/=nums;
-        return div;
+        return num.size() == 1 ? num.get(0) : div;
     }
 
     /**
@@ -146,7 +141,7 @@ public class Calculadora implements OperacoesI{
                     unirChars = new StringBuilder();
                     /*
                     NESSE CASO QUANDO TEPORARIO ATINGIR TAMANHO 3, ELE SERÁ COMPOSTO DE UM SINAL X/÷
-                    NO MEIO E DOIS NÚMEROOS ISSO SERVE PARA SEMPRE REALIZAR AS CONTAS DE DIVISÃO E
+                    NO MEIO E DOIS NÚMEROS ISSO SERVE PARA SEMPRE REALIZAR AS CONTAS DE DIVISÃO E
                     MULTIPLICAÇÃO COM PRIORIDADE DE ACORDO COM O SINAL.
                      */
                     if (temporario.size() == 3) {

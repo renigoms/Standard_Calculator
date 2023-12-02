@@ -222,7 +222,7 @@ public class CalculadoraController implements ActionListener {
     }
 
     /**
-     * <h1>Faz o gerenciamento do primeiro digito</h1>
+     * <p>Faz o gerenciamento do primeiro digito</p>
      */
     private void controlFirstDig() {
         if (areaDeTexto.getText().isEmpty() || areaDeTexto.getText().equals("0"))
@@ -256,13 +256,12 @@ public class CalculadoraController implements ActionListener {
 
             ArrayList<Character> listChars = new ArrayList<>();
 
-            for (int i = 0; i < areaDeTexto.getText().length(); i++)
-                listChars.add(areaDeTexto.getText().charAt(i));
+            for (char chars : areaDeTexto.getText().toCharArray())
+                listChars.add(chars);
 
-            if (listChars.get(listChars.size() - 1) == '÷' || listChars.get(listChars.size() - 1) == 'x'
-                    || listChars.get(listChars.size() - 1) == '+' || listChars.get(listChars.size() - 1) == '-'
-                    || listChars.get(listChars.size() - 1) == '.'
-            ) {
+            if (isSinaisEspeciaisInEnd(areaDeTexto.getText()) ||
+                    listChars.get(listChars.size() - 1) == '.') {
+
                 listChars.remove(listChars.size() - 1);
 
                 char[] newchar = new char[listChars.size()];
@@ -377,8 +376,7 @@ public class CalculadoraController implements ActionListener {
                 if(chars.get(chars.size() - 1) == '.')
                     this.isPonto = true;
 
-                if(chars.get(chars.size() - 1) =='+'|| chars.get(chars.size() - 1)=='-'||
-                        chars.get(chars.size() - 1)=='x'|| chars.get(chars.size() - 1)=='÷') {
+                if(isSinaisEspeciaisInEnd(areaDeTexto.getText())) {
                     for(int i = chars.size() - 1;i>=0;i--) {
                         chars2.add(chars.get(i));
                         if(chars.get(i)=='+'|| chars.get(i)=='-'||
