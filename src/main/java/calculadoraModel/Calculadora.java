@@ -90,7 +90,12 @@ public class Calculadora implements OperacoesI{
         unirChars.append(String.valueOf(chars));
     }
 
-    private void addResultTemporario(){
+    private void addResultTemporario(double result){
+        temporario.clear();
+        temporario.add(String.valueOf(result));
+    }
+
+    public void addCharsTemporario(){
         temporario.add(unirChars.toString());
         unirChars = new StringBuilder();
     }
@@ -150,7 +155,7 @@ public class Calculadora implements OperacoesI{
                 }
 //               CASO X/÷12345+/-
                 if (isMultDivAnterior && isSomSub) {
-                    addResultTemporario();
+                    addCharsTemporario();
                     /*
                     NESSE CASO QUANDO TEPORARIO ATINGIR TAMANHO 3, ELE SERÁ COMPOSTO DE UM SINAL X/÷
                     NO MEIO E DOIS NÚMEROS ISSO SERVE PARA SEMPRE REALIZAR AS CONTAS DE DIVISÃO E
@@ -180,33 +185,31 @@ public class Calculadora implements OperacoesI{
 
 //                CASE +/-12345X/÷
                 if(isSomSubAnterior && isMultDiv){
-                    addResultTemporario();
+                    addCharsTemporario();
                     unirChars.append(String.valueOf(chars));
-                    addResultTemporario();
+                    addCharsTemporario();
                     continue;
 
                 }
 //                CASE X/÷123456X/÷
                 if(isMultDivAnterior && isMultDiv){
-                    addResultTemporario();
+                    addCharsTemporario();
                     if(temporario.size() == 3){
                         switch (temporario.get(1)){
                             case "x":
                                 result = multiplicacaoPrioritaria(temporario);
-                                temporario.clear();
-                                temporario.add(String.valueOf(result));
+                               addResultTemporario(result);
                                 if(chars == 'x' || chars == '÷'){
                                     unirChars.append(String.valueOf(chars));
-                                    addResultTemporario();
+                                    addCharsTemporario();
                                 }
                                 continue;
                             case "÷":
                                 result = divisaoPrioritaria(temporario);
-                                temporario.clear();
-                                temporario.add(String.valueOf(result));
+                                addResultTemporario(result);
                                 if(chars == 'x' || chars == '÷'){
                                     unirChars.append(String.valueOf(chars));
-                                    addResultTemporario();
+                                    addCharsTemporario();
                                 }
                                 continue;
                         }
