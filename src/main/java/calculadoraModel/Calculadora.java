@@ -43,11 +43,11 @@ public class Calculadora implements OperacoesI{
      */
     @Override
     public double divisao(ArrayList<Double> num) {
-        double div = num.get(0);
+        double div = num.get(0), numSizeInit = num.size();
         num.remove(0);
         for(double nums:num)
             div/=nums;
-        return num.size() == 1 ? num.get(0) : div;
+        return numSizeInit == 1 ? num.get(0) : div;
     }
 
     /**
