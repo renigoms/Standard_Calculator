@@ -256,6 +256,7 @@ public class CalculadoraController implements ActionListener {
 
             ArrayList<Character> listChars = new ArrayList<>();
 
+
             for (char chars : areaDeTexto.getText().toCharArray())
                 listChars.add(chars);
 
@@ -281,8 +282,8 @@ public class CalculadoraController implements ActionListener {
 
     private boolean isBigNumber(double number){
         String strNumber = String.valueOf(number);
-        for (int i = 0; i<strNumber.length(); i++)
-            if (strNumber.charAt(i) == 'E')
+        for (char chars:strNumber.toCharArray())
+            if (chars == 'E')
                 return true;
         return false;
     }
@@ -300,19 +301,20 @@ public class CalculadoraController implements ActionListener {
         DecimalFormat df = new DecimalFormat(mask);
         if (isBigNumber(resultado)){
             StringBuilder unionCharResult = new StringBuilder();
-            int cont=0;
+
             String strResult = String.valueOf(resultado);
-            while ( strResult.charAt(cont) != '.'){
-                unionCharResult.append(strResult.charAt(cont));
-                cont++;
+
+            for (char chars:strResult.toCharArray()) {
+                if (chars == '.') break;
+                unionCharResult.append(chars);
             }
+
             StringBuilder charResultPosPonto = new StringBuilder(unionCharResult+".");
-            cont = charResultPosPonto.length();
+            int cont = charResultPosPonto.length();
             for (int i = 0; i<4;i++) {
                 charResultPosPonto.append(strResult.charAt(cont));
                 cont++;
             }
-
             return String.valueOf(charResultPosPonto);
         }
        return df.format(resultado);
@@ -334,9 +336,7 @@ public class CalculadoraController implements ActionListener {
                     }
                     areaDeTexto.setText(resultadoString);
                 }
-            } catch (OperacaoInvalidaException e2) {
-
-            }
+            } catch (OperacaoInvalidaException ignored) {}
         }
 
 //		BOTÃO PONTO
@@ -366,8 +366,8 @@ public class CalculadoraController implements ActionListener {
             boolean isMenosSinal = false, sinalfinal = false, sinalInicial = false;
 
             if (!areaDeTexto.getText().isEmpty()) {
-                for (int i = 0; i < areaDeTexto.getText().length(); i++)
-                    chars.add(areaDeTexto.getText().charAt(i));
+                for (char itemChar:areaDeTexto.getText().toCharArray())
+                    chars.add(itemChar);
 
                 if (chars.get(0) == '-') isMenosSinal = true;
 
@@ -387,8 +387,7 @@ public class CalculadoraController implements ActionListener {
                             }
                         }
 
-                        if(chars.get(i)=='+'|| chars.get(i)=='-'||
-                                chars.get(i)=='x'|| chars.get(i)=='÷' && sinalInicial) {
+                        if(isSinaisEspeciaisInEnd(String.valueOf(chars.get(i))) && sinalInicial) {
                             sinalfinal = true;
                             if(chars2.contains('.')) {
                                 this.isPonto = false;
@@ -421,8 +420,8 @@ public class CalculadoraController implements ActionListener {
 
         private void listChars() {
             this.caracteres = new ArrayList<>();
-            for (int i = 0; i < areaDeTexto.getText().length(); i++)
-                caracteres.add(areaDeTexto.getText().charAt(i));
+            for (char chars:areaDeTexto.getText().toCharArray())
+                caracteres.add(chars);
         }
 
         @Override
@@ -441,9 +440,10 @@ public class CalculadoraController implements ActionListener {
 //					OPERAÇÕES:
                     listChars(); //lista de chars na area de texto
                     String resultadoString = formatarResultado(calculadora.executarOperacoes(caracteres), "#.####");
-                    for(int i = 0; i<resultadoString.length();i++) {
-                        if(resultadoString.charAt(i)=='.') {
+                    for(char chars:resultadoString.toCharArray()) {
+                        if (chars == '.') {
                             isPonto = false;
+                            break;
                         }
                     }
                     areaDeTexto.setText(resultadoString);
