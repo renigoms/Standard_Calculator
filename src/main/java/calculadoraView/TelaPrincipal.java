@@ -8,11 +8,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-@SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame{
 
-    private JTextField areaDeExibicao;
-    private PainelDeDigitos painelDigitos;
+    private  JTextField areaDeExibicao;
+    private final PainelDeDigitos painelDigitos;
 
 
     public TelaPrincipal() {
@@ -23,11 +22,9 @@ public class TelaPrincipal extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);
 //		VISOR DA CALCULADORA
-        areaDeExibicao = new JTextField(20);
-        areaDeExibicao.setHorizontalAlignment(JTextField.RIGHT);
-        areaDeExibicao.setEditable(false);
-        areaDeExibicao.setFont(new Font("Arial Black", Font.BOLD, 25));
-        areaDeExibicao.setPreferredSize(new Dimension(80, 50));
+
+        configVisor();
+
         add(areaDeExibicao, BorderLayout.NORTH);
 
 //		DIGITOS
@@ -35,8 +32,16 @@ public class TelaPrincipal extends JFrame{
         painelDigitos = new PainelDeDigitos();
         add(painelDigitos, BorderLayout.CENTER);
 
-
+//         SHOW
         setVisible(true);
+    }
+
+    private void configVisor(){
+        areaDeExibicao = new JTextField(20);
+        areaDeExibicao.setHorizontalAlignment(JTextField.RIGHT);
+        areaDeExibicao.setEditable(false);
+        areaDeExibicao.setFont(new Font("Arial Black", Font.BOLD, 25));
+        areaDeExibicao.setPreferredSize(new Dimension(80, 50));
     }
 
 
