@@ -130,13 +130,13 @@ public class CalculadoraController implements ActionListener {
                 controlCaracteresNomais("1");
             }
         });
-        digitos.getDois().addActionListener(new ActionListener() {
+        digitos.getDOIS().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controlCaracteresNomais("2");
             }
         });
-        digitos.getTres().addActionListener(new ActionListener() {
+        digitos.getTRES().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controlCaracteresNomais("3");
@@ -189,14 +189,7 @@ public class CalculadoraController implements ActionListener {
 
 //	ALGUNS CARACTERES ESPECIAIS
 
-    private void control2() {
-        digitos.getRaiz().addActionListener(this);
-        digitos.getPonto().addActionListener(this);
-        digitos.getApagar().addActionListener(this);
-        digitos.getIgual().addActionListener(resultadosOperacoes);
-        areaDeTexto.addKeyListener(keyHandler);
-//		COMANDOS DO TECLADO
-//		SINAIS ESPECIAIS
+    private void sinaisEspeciais(){
         digitos.getMais().addKeyListener(keyHandler);
         digitos.getMenos().addKeyListener(keyHandler);
         digitos.getVezes().addKeyListener(keyHandler);
@@ -207,22 +200,40 @@ public class CalculadoraController implements ActionListener {
         digitos.getLigar().addKeyListener(keyHandler);
         digitos.getButtonOff().addKeyListener(keyHandler);
         digitos.getRaiz().addKeyListener(keyHandler);
-//		NÚMEROS DE 0 A 9
+    }
+    private void teclasDeFuncionamento(){
+        digitos.getRaiz().addActionListener(this);
+        digitos.getPonto().addActionListener(this);
+        digitos.getApagar().addActionListener(this);
+        digitos.getIgual().addActionListener(resultadosOperacoes);
+        areaDeTexto.addKeyListener(keyHandler);
+    }
+    private void digitosNumericos(){
         digitos.getZero().addKeyListener(keyHandler);
         digitos.getUm().addKeyListener(keyHandler);
-        digitos.getDois().addKeyListener(keyHandler);
-        digitos.getTres().addKeyListener(keyHandler);
+        digitos.getDOIS().addKeyListener(keyHandler);
+        digitos.getTRES().addKeyListener(keyHandler);
         digitos.getQuatro().addKeyListener(keyHandler);
         digitos.getCinco().addKeyListener(keyHandler);
         digitos.getSeis().addKeyListener(keyHandler);
         digitos.getSete().addKeyListener(keyHandler);
         digitos.getOito().addKeyListener(keyHandler);
         digitos.getNove().addKeyListener(keyHandler);
+    }
 
+
+
+    private void control2() {
+        teclasDeFuncionamento();
+//		COMANDOS DO TECLADO
+//		SINAIS ESPECIAIS
+        sinaisEspeciais();
+//		NÚMEROS DE 0 A 9
+        digitosNumericos();
     }
 
     /**
-     * <p>Faz o gerenciamento do primeiro digito</p>
+     * <h3>Faz o gerenciamento do primeiro digito</h3>
      */
     private void controlFirstDig() {
         if (areaDeTexto.getText().isEmpty() || areaDeTexto.getText().equals("0"))
@@ -469,10 +480,10 @@ public class CalculadoraController implements ActionListener {
                     digitos.getUm().doClick();
                     break;
                 case '2':
-                    digitos.getDois().doClick();
+                    digitos.getDOIS().doClick();
                     break;
                 case '3':
-                    digitos.getTres().doClick();
+                    digitos.getTRES().doClick();
                     break;
                 case '4':
                     digitos.getQuatro().doClick();

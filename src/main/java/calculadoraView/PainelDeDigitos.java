@@ -8,179 +8,173 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 public class PainelDeDigitos extends JPanel{
-    private JButton um,dois,tres, quatro, cinco, seis, sete, oito, nove, zero;
-    private JButton mais, menos, vezes, dividir, apagar, ligar,
-            apagarTudo, raiz, ponto,igual;
-    private Color color;
+    private final JButton UM, DOIS, TRES, QUATRO, CINCO, SEIS, SETE, OITO, NOVE, ZERO;
+    private final JButton MAIS, MENOS, VEZES, DIVIDIR, APAGAR, LIGAR,
+            DELIGAR, RAIZ_QUADRADA, PONTO, IGUAL;
 
     public PainelDeDigitos() {
-        color = new Color(51,104,255);
+        Color color = new Color(51, 104, 255);
         setLayout(new GridLayout(4,6));
 
 //		PRIMEIRA FILEIRA
-        sete = new JButton("7");
-        add(sete);
+        SETE = new JButton("7");
+        add(SETE);
 
-        oito = new JButton("8");
-        add(oito);
+        OITO = new JButton("8");
+        add(OITO);
 
-        nove = new JButton("9");
-        add(nove);
+        NOVE = new JButton("9");
+        add(NOVE);
 
-        ligar = new JButton("ON");
-        ligar.setBackground(color);
-        add(ligar);
+        LIGAR = new JButton("ON");
+        LIGAR.setBackground(color);
+        add(LIGAR);
 
-        apagarTudo = new JButton("OFF");
-        apagarTudo.setBackground(color);
-        add(apagarTudo);
+        DELIGAR = new JButton("OFF");
+        DELIGAR.setBackground(color);
+        add(DELIGAR);
 
 //		SEGUNDA FILEIRA
 
-        quatro = new JButton("4");
-        add(quatro);
+        QUATRO = new JButton("4");
+        add(QUATRO);
 
-        cinco = new JButton("5");
-        add(cinco);
+        CINCO = new JButton("5");
+        add(CINCO);
 
-        seis = new JButton("6");
-        add(seis);
+        SEIS = new JButton("6");
+        add(SEIS);
 
-        vezes = new JButton("X");
-        vezes.setBackground(color);
-        add(vezes);
+        VEZES = new JButton("X");
+        VEZES.setBackground(color);
+        add(VEZES);
 
-        dividir = new JButton("÷");
-        dividir.setBackground(color);
-        add(dividir);
+        DIVIDIR = new JButton("÷");
+        DIVIDIR.setBackground(color);
+        add(DIVIDIR);
 
 //		TECEIRA FILEIRA
 
-        um = new JButton("1");
-        add(um);
+        UM = new JButton("1");
+        add(UM);
 
-        dois = new JButton("2");
-        add(dois);
+        DOIS = new JButton("2");
+        add(DOIS);
 
-        tres = new JButton("3");
-        add(tres);
+        TRES = new JButton("3");
+        add(TRES);
 
-        mais = new JButton("+");
-        mais.setBackground(color);
-        add(mais);
+        MAIS = new JButton("+");
+        MAIS.setBackground(color);
+        add(MAIS);
 
-        menos = new JButton("-");
-        menos.setBackground(color);
-        add(menos);
+        MENOS = new JButton("-");
+        MENOS.setBackground(color);
+        add(MENOS);
 
 //		QUARTA FILEIRA
 
-        zero = new JButton("0");
-        add(zero);
+        ZERO = new JButton("0");
+        add(ZERO);
 
-        apagar = new JButton(new ImageIcon("src/main/img/apagarCalculadora.png"));
-        apagar.setBackground(color);
-        add(apagar);
+        APAGAR = new JButton(new ImageIcon("src/main/img/apagarCalculadora.png"));
+        APAGAR.setBackground(color);
+        add(APAGAR);
 
-        ponto = new JButton(".");
-        ponto.setFont(new Font("Arial", Font.BOLD, 16));
-        ponto.setBackground(color);
-        add(ponto);
+        PONTO = new JButton(".");
+        PONTO.setFont(new Font("Arial", Font.BOLD, 16));
+        PONTO.setBackground(color);
+        add(PONTO);
 
-        raiz = new JButton("√");
-        raiz.setBackground(color);
-        add(raiz);
+        RAIZ_QUADRADA = new JButton("√");
+        RAIZ_QUADRADA.setBackground(color);
+        add(RAIZ_QUADRADA);
 
 
-        igual = new JButton("=");
-        igual.setBackground(color);
-        add(igual);
+        IGUAL = new JButton("=");
+        IGUAL.setBackground(color);
+        add(IGUAL);
     }
 
     public JButton getUm() {
-        return um;
+        return UM;
     }
 
-    public JButton getDois() {
-        return dois;
+    public JButton getDOIS() {
+        return DOIS;
     }
 
-    public JButton getTres() {
-        return tres;
+    public JButton getTRES() {
+        return TRES;
     }
 
     public JButton getQuatro() {
-        return quatro;
+        return QUATRO;
     }
 
     public JButton getCinco() {
-        return cinco;
+        return CINCO;
     }
 
     public JButton getSeis() {
-        return seis;
+        return SEIS;
     }
 
     public JButton getSete() {
-        return sete;
+        return SETE;
     }
 
     public JButton getOito() {
-        return oito;
+        return OITO;
     }
 
     public JButton getNove() {
-        return nove;
+        return NOVE;
     }
 
     public JButton getZero() {
-        return zero;
+        return ZERO;
     }
 
     public JButton getMais() {
-        return mais;
+        return MAIS;
     }
 
     public JButton getMenos() {
-        return menos;
+        return MENOS;
     }
 
     public JButton getVezes() {
-        return vezes;
+        return VEZES;
     }
 
     public JButton getDividir() {
-        return dividir;
+        return DIVIDIR;
     }
 
     public JButton getApagar() {
-        return apagar;
+        return APAGAR;
     }
 
     public JButton getLigar() {
-        return ligar;
+        return LIGAR;
     }
 
     public JButton getButtonOff() {
-        return apagarTudo;
+        return DELIGAR;
     }
 
     public JButton getRaiz() {
-        return raiz;
+        return RAIZ_QUADRADA;
     }
 
 
     public JButton getPonto() {
-        return ponto;
+        return PONTO;
     }
 
     public JButton getIgual() {
-        return igual;
-    }
-
-    public Color getColor() {
-        return color;
+        return IGUAL;
     }
 }
