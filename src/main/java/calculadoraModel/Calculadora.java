@@ -6,14 +6,13 @@ public class Calculadora implements OperacoesI{
 
     private boolean isLigada;
 
-    /*
-    O ALGORITMO UTILIZA DE DOIS ARRAYLISTS: UM PRINCIPAL E UM TEMPORARIO QUE SERÁ USADO COMO
-    FORMA DE GARANTIR A PRIORIDADE DA MULTIPLICAÇÃO E DA DIVISÃO NA EQUAÇÃO CALCULADA.
-     */
-    private ArrayList<String> principal = new ArrayList<>(),temporario = new ArrayList<>();
 
-    // DEFINIÇÃO DA VARIÁVEL UNIRCHAR (CHAR ÚNICO) TENDO COMO CHAR INICIAL '+'
-    private StringBuilder unirChars = new StringBuilder("+");
+    private ArrayList<String> principal ,temporario;
+
+
+    private StringBuilder unirChars;
+
+
 
     public Calculadora() {
         isLigada = false;
@@ -107,6 +106,8 @@ public class Calculadora implements OperacoesI{
      */
     @Override
     public double executarOperacoes(ArrayList<Character> caracteres) {
+        // DEFINIÇÃO DA VARIÁVEL UNIRCHAR (CHAR ÚNICO) TENDO COMO CHAR INICIAL '+'
+        unirChars = new StringBuilder("+");
         // DEFINIÇÃO DE TODAS AS BOOLEANAS NECESSÁRIAS AO MÉTODO
         boolean inicioNegativo = caracteres.get(0) == '-',
                 isSomSub = true, isMultDiv = false,
@@ -114,6 +115,13 @@ public class Calculadora implements OperacoesI{
 
         // DEFINIÇÃO DA VARIÁVEL DE RESULTADO FINAL DA CONTA
         double result = 0;
+
+         /*
+            O ALGORITMO UTILIZA DE DOIS ARRAYLISTS: UM PRINCIPAL E UM TEMPORARIO QUE SERÁ USADO COMO
+            FORMA DE GARANTIR A PRIORIDADE DA MULTIPLICAÇÃO E DA DIVISÃO NA EQUAÇÃO CALCULADA.
+          */
+        principal = new ArrayList<>();
+        temporario = new ArrayList<>();
 
 
         for (Character chars : caracteres) {
@@ -243,6 +251,10 @@ public class Calculadora implements OperacoesI{
         return soma(convArrayListString(principal));
     }
 
+//    CALCULO DE RAIZ QUADRADA
+    public double raizQuadrada(String numText){
+        return Math.sqrt(Double.parseDouble(numText));
+    }
     public boolean isLigada() {
         return isLigada;
     }
