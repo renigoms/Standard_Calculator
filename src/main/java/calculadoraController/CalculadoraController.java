@@ -24,8 +24,7 @@ public class CalculadoraController implements ActionListener {
     private ResultadosOperacoes resultadosOperacoes;
     private KeyHandler keyHandler;
     private boolean isPonto;
-    private String text;
-    private String text1;
+    private boolean isOperationPerformed;
 
     public CalculadoraController(TelaPrincipal telaPrincipal) {
         super();
@@ -245,6 +244,11 @@ public class CalculadoraController implements ActionListener {
      * @return
      */
     private boolean controlSegDigEmDiant(String dig) {
+        if (isOperationPerformed){
+            isOperationPerformed = false;
+            return false;
+        }
+
         if(areaDeTexto.getText().length() >= 1) {
             areaDeTexto.setText(areaDeTexto.getText() + dig);
             return true;
@@ -285,6 +289,7 @@ public class CalculadoraController implements ActionListener {
                 return true;
 
             }
+            isOperationPerformed = false;
             areaDeTexto.setText(areaDeTexto.getText() + dig);
             return true;
         }
@@ -339,12 +344,15 @@ public class CalculadoraController implements ActionListener {
                 if(!areaDeTexto.getText().isEmpty() && calculadora.isLigada()) {
                     if (isSinaisEspeciaisInEnd(areaDeTexto.getText()) || areaDeTexto.getText().charAt(0)=='-')
                         throw new OperacaoInvalidaException("Operação inválida");
-//					CALCULO DE RAIZ QUADRADA
-                    double resultado = Math.sqrt(Double.parseDouble(areaDeTexto.getText()));
-                    String resultadoString = formatarResultado(resultado, "#.####");
-                    for(int i = 0; i<resultadoString.length();i++) {
-                        this.isPonto = resultadoString.charAt(i)=='.' ? false:true;
+                    String resultadoString = formatarResultado(calculadora.raizQuadrada(areaDeTexto.getText()),
+                            "#.####");
+                    for(char chars:resultadoString.toCharArray()) {
+                        if (chars == '.'){
+                            isPonto = false;
+                            break;
+                        }else isPonto = true;
                     }
+                    isOperationPerformed = true;
                     areaDeTexto.setText(resultadoString);
                 }
             } catch (OperacaoInvalidaException ignored) {}
@@ -457,6 +465,7 @@ public class CalculadoraController implements ActionListener {
                             break;
                         }
                     }
+                    isOperationPerformed = true;
                     areaDeTexto.setText(resultadoString);
 
                 } catch (OperacaoInvalidaException e2) {
