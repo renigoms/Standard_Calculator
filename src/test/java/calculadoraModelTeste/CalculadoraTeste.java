@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class CalculadoraTeste {
-    private final ArrayList<Character> LISTCHARS = new ArrayList<>(), LISTCHRAS2 = new ArrayList<>();
+    private final ArrayList<Character> LISTCHARS = new ArrayList<>(), LISTCHRAS2 = new ArrayList<>(),
+    LISTCHAR3 = new ArrayList<>();
 
    private final Calculadora CALCULADORA = new Calculadora();
 
@@ -23,6 +24,10 @@ public class CalculadoraTeste {
         String EQUACAO2 = "123456789x123456789";
         for(char chars:EQUACAO2.toCharArray())
             LISTCHRAS2.add(chars);
+
+        String EQUACAO3 = "10000x100000";
+        for(char chars:EQUACAO3.toCharArray())
+            LISTCHAR3.add(chars);
 
     }
 
@@ -38,6 +43,14 @@ public class CalculadoraTeste {
         Assertions.assertEquals(1.524157875019052E16, CALCULADORA.executarOperacoes(LISTCHRAS2));
 
     }
+    @Test
+    @DisplayName("Multiplicacao de números grandes")
+    public void operMultNumBig2(){
+        Assertions.assertEquals(1.0E9, CALCULADORA.executarOperacoes(LISTCHAR3));
+
+    }
+
+
 
 
 }

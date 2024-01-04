@@ -318,22 +318,7 @@ public class CalculadoraController implements ActionListener {
         Locale.setDefault(Locale.US);// padroniza o ponto
         DecimalFormat df = new DecimalFormat(mask);
         if (isBigNumber(resultado)){
-            StringBuilder unionCharResult = new StringBuilder();
-
-            String strResult = String.valueOf(resultado);
-
-            for (char chars:strResult.toCharArray()) {
-                if (chars == '.') break;
-                unionCharResult.append(chars);
-            }
-
-            StringBuilder charResultPosPonto = new StringBuilder(unionCharResult+".");
-            int cont = charResultPosPonto.length();
-            for (int i = 0; i<4;i++) {
-                charResultPosPonto.append(strResult.charAt(cont));
-                cont++;
-            }
-            return String.valueOf(charResultPosPonto);
+            return String.valueOf(resultado);
         }
        return df.format(resultado);
     }
