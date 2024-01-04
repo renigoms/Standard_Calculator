@@ -18,102 +18,112 @@ public class PainelDeDigitos extends JPanel{
         setLayout(new GridLayout(4,6));
 
 //		PRIMEIRA FILEIRA
-        SETE = new JButton("7");
-        SETE.setFont(new Font("Arial", Font.BOLD, 14));
+        SETE = createButton("7",new Font("Arial", Font.BOLD, 14));
         add(SETE);
 
-        OITO = new JButton("8");
-        OITO.setFont(new Font("Arial ", Font.BOLD, 14));
+        OITO = createButton("8",new Font("Arial", Font.BOLD, 14));
         add(OITO);
 
-        NOVE = new JButton("9");
-        NOVE.setFont(new Font("arial ", Font.BOLD, 14));
+        NOVE = createButton("9",new Font("Arial", Font.BOLD, 14));
         add(NOVE);
 
-        LIGAR = new JButton("ON");
-        LIGAR.setBackground(color);
-        LIGAR.setFont(new Font("arial ", Font.BOLD, 14));
+        LIGAR = createButton("ON",new Font("Arial", Font.BOLD, 14), color);
         add(LIGAR);
 
-        DELIGAR = new JButton("OFF");
-        DELIGAR.setBackground(color);
-        DELIGAR.setFont(new Font("Arial Black", Font.BOLD, 11));
+        DELIGAR = createButton("OFF",new Font("Arial Black", Font.BOLD, 11), color);
         add(DELIGAR);
 
 //		SEGUNDA FILEIRA
 
-        QUATRO = new JButton("4");
-        QUATRO.setFont(new Font("arial ", Font.BOLD, 14));
+        QUATRO = createButton("4",new Font("arial ", Font.BOLD, 14));
         add(QUATRO);
 
-        CINCO = new JButton("5");
-        CINCO.setFont(new Font("arial ", Font.BOLD, 14));
+        CINCO = createButton("5",new Font("arial ", Font.BOLD, 14));
         add(CINCO);
 
-        SEIS = new JButton("6");
-        SEIS.setFont(new Font("arial ", Font.BOLD, 14));
+        SEIS = createButton("6",new Font("arial ", Font.BOLD, 14));
         add(SEIS);
 
-        VEZES = new JButton("X");
-        VEZES.setBackground(color);
-        VEZES.setFont(new Font("arial ", Font.BOLD, 14));
+        VEZES = createButton("X",new Font("arial ", Font.BOLD, 14), color);
         add(VEZES);
 
-        DIVIDIR = new JButton("÷");
-        DIVIDIR.setBackground(color);
-        DIVIDIR.setFont(new Font("arial ", Font.BOLD, 14));
+        DIVIDIR = createButton("÷", new Font("arial ", Font.BOLD, 14), color);
         add(DIVIDIR);
 
 //		TECEIRA FILEIRA
 
-        UM = new JButton("1");
-        UM.setFont(new Font("arial ", Font.BOLD, 14));
+        UM = createButton("1",new Font("arial ", Font.BOLD, 14));
         add(UM);
 
-        DOIS = new JButton("2");
-        DOIS.setFont(new Font("arial ", Font.BOLD, 14));
+        DOIS = createButton("2",new Font("arial ", Font.BOLD, 14));
         add(DOIS);
 
-        TRES = new JButton("3");
-        TRES.setFont(new Font("arial ", Font.BOLD, 14));
+        TRES = createButton("3",new Font("arial ", Font.BOLD, 14));;
         add(TRES);
 
-        MAIS = new JButton("+");
-        MAIS.setFont(new Font("arial ", Font.BOLD, 14));
-        MAIS.setBackground(color);
+        MAIS = createButton("+", new Font("arial ", Font.BOLD, 14), color);
         add(MAIS);
 
-        MENOS = new JButton("-");
-        MENOS.setFont(new Font("arial ", Font.BOLD, 14));
-        MENOS.setBackground(color);
+        MENOS = createButton("-", new Font("arial ", Font.BOLD, 14), color);
         add(MENOS);
 
 //		QUARTA FILEIRA
 
-        ZERO = new JButton("0");
-        ZERO.setFont(new Font("arial ", Font.BOLD, 14));
+        ZERO = createButton("0", new Font("arial ", Font.BOLD, 14));
         add(ZERO);
 
-        APAGAR = new JButton(new ImageIcon("src/main/img/apagarCalculadora.png"));
-        APAGAR.setBackground(color);
-        APAGAR.setFont(new Font("arial ", Font.BOLD, 14));
+        APAGAR = createButton(new ImageIcon("src/main/img/apagarCalculadora.png"),
+                new Font("arial ", Font.BOLD, 14), color);
         add(APAGAR);
 
-        PONTO = new JButton(".");
-        PONTO.setFont(new Font("Arial", Font.BOLD, 16));
-        PONTO.setBackground(color);
+        PONTO = createButton(".", new Font("Arial", Font.BOLD, 16), color);
         add(PONTO);
 
-        RAIZ_QUADRADA = new JButton("√");
-        RAIZ_QUADRADA.setBackground(color);
-        RAIZ_QUADRADA.setFont(new Font("arial ", Font.BOLD, 14));
+        RAIZ_QUADRADA = createButton("√",new Font("arial ", Font.BOLD, 14),color);
         add(RAIZ_QUADRADA);
 
-
-        IGUAL = new JButton("=");
-        IGUAL.setBackground(color);
-        IGUAL.setFont(new Font("arial ", Font.BOLD, 14));
+        IGUAL = createButton("=",new Font("arial ", Font.BOLD, 14),color);
         add(IGUAL);
+    }
+
+    /**
+     * Configurações do button
+     * @param text
+     * @param fonte
+     * @param corDeFundo
+     * @return
+     */
+    private JButton createButton(String text, Font fonte, Color corDeFundo){
+        JButton button = new JButton(text);
+        button.setFont(fonte);
+        button.setBackground(corDeFundo);
+        return button;
+    }
+
+    /**
+     * Configurações do button
+     * @param imageIcon
+     * @param fonte
+     * @param corDeFundo
+     * @return
+     */
+    private JButton createButton(ImageIcon imageIcon, Font fonte, Color corDeFundo){
+        JButton button = new JButton(imageIcon);
+        button.setFont(fonte);
+        button.setBackground(corDeFundo);
+        return button;
+    }
+
+    /**
+     * Configurações do button
+     * @param text
+     * @param fonte
+     * @return
+     */
+    private JButton createButton(String text, Font fonte){
+        JButton button = new JButton(text);
+        button.setFont(fonte);
+        return button;
     }
 
     public JButton getUm() {
@@ -187,7 +197,6 @@ public class PainelDeDigitos extends JPanel{
     public JButton getRaiz() {
         return RAIZ_QUADRADA;
     }
-
 
     public JButton getPonto() {
         return PONTO;

@@ -40,13 +40,41 @@ public class CalculadoraController implements ActionListener {
         digitos.getLigar().doClick();
     }
 
-
+    /*
+    REALIZA A FUNÇÃO DE LIGAR E DESLIGAR A CALCULADORA TENDO A
+    OPÇÃO DE INICIAR COM UM DIGITO AO LIGAR
+     */
     private void ligarDesligarCalculadora(boolean isLigado, String digitoInicial){
         calculadora.setLigada(isLigado);
         areaDeTexto.setText(digitoInicial);
         isPonto = true;
     }
 //    CONTROLE DE CARACTERES NUMERICOS
+    /**
+     * <h3>Faz o gerenciamento do primeiro digito</h3>
+     */
+    private void controlFirstDig() {
+        if (areaDeTexto.getText().isEmpty() || areaDeTexto.getText().equals("0"))
+            areaDeTexto.setText("");
+    }
+    /**
+     * Realiza o controle dos caracteres numericos
+     * @param dig
+     * @return
+     */
+    private boolean controlSegDigEmDiant(String dig) {
+        if (isOperationPerformed){
+            isOperationPerformed = false;
+            return false;
+        }
+
+        if(areaDeTexto.getText().length() >= 1) {
+            areaDeTexto.setText(areaDeTexto.getText() + dig);
+            return true;
+        }
+        return false;
+    }
+//    CONTROLADOR DE CARACTERES NÃO ESPECIAIS
     private void controlCaracteresNomais(String caractere){
         if (calculadora.isLigada()) {
             controlFirstDig();
@@ -230,31 +258,7 @@ public class CalculadoraController implements ActionListener {
 //		NÚMEROS DE 0 A 9
         digitosNumericos();
     }
-
-    /**
-     * <h3>Faz o gerenciamento do primeiro digito</h3>
-     */
-    private void controlFirstDig() {
-        if (areaDeTexto.getText().isEmpty() || areaDeTexto.getText().equals("0"))
-            areaDeTexto.setText("");
-    }
-    /**
-     * Realiza o controle dos caracteres numericos
-     * @param dig
-     * @return
-     */
-    private boolean controlSegDigEmDiant(String dig) {
-        if (isOperationPerformed){
-            isOperationPerformed = false;
-            return false;
-        }
-
-        if(areaDeTexto.getText().length() >= 1) {
-            areaDeTexto.setText(areaDeTexto.getText() + dig);
-            return true;
-        }
-        return false;
-    }
+//    verifica se há caracteres especiais no fim da String
     private boolean isSinaisEspeciaisInEnd(String text){
         if(text.charAt(text.length()-1)=='÷'|| text.charAt(text.length()-1)=='+'||
                 text.charAt(text.length()-1)=='-'|| text.charAt(text.length()-1)=='x')
@@ -268,10 +272,7 @@ public class CalculadoraController implements ActionListener {
      */
     private boolean controlCharacEsp(String dig) {
         if(areaDeTexto.getText().length() >= 1) {
-
             ArrayList<Character> listChars = new ArrayList<>();
-
-
             for (char chars : areaDeTexto.getText().toCharArray())
                 listChars.add(chars);
 
@@ -296,6 +297,7 @@ public class CalculadoraController implements ActionListener {
         return false;
     }
 
+//    VERIFICA SE O NUMERO É MUITO GRANDE
     private boolean isBigNumber(double number){
         String strNumber = String.valueOf(number);
         for (char chars:strNumber.toCharArray())
@@ -437,6 +439,7 @@ public class CalculadoraController implements ActionListener {
 
         public ResultadosOperacoes() {}
 
+//        DIVIDE A STRING ORIGINARIA DO VISOR EM UMA LISTA DE CHARS
         private void listChars() {
             this.caracteres = new ArrayList<>();
             for (char chars:areaDeTexto.getText().toCharArray())
