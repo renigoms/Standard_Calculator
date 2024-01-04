@@ -3,22 +3,13 @@ package calculadoraModel;
 import java.util.ArrayList;
 
 public class Calculadora implements OperacoesI{
-
     private boolean isLigada;
-
-
     private ArrayList<String> principal ,temporario;
-
-
     private StringBuilder unirChars;
-
-
-
+    private boolean inicioNegativo, isSomSub, isMultDiv, isSomSubAnterior, isMultDivAnterior;
     public Calculadora() {
         isLigada = false;
     }
-
-
     /**
      * @param num
      * @return A soma de valores no da lista de doubles fornecida
@@ -74,29 +65,86 @@ public class Calculadora implements OperacoesI{
         return numOperacao;
     }
 
+    /**
+     * Método que realiza todas as multiplicações
+     * prioritarias
+     * @param temporario
+     * @return
+     */
+
     private double multiplicacaoPrioritaria(ArrayList<String> temporario){
         temporario.remove(1);
         return multiplicacao(convArrayListString(temporario));
     }
+
+    /**
+     * Método que realiza todas as divisões prioritarias
+     * @param temporario
+     * @return
+     */
     private double divisaoPrioritaria(ArrayList<String> temporario){
         temporario.remove(1);
         return divisao(convArrayListString(temporario));
     }
 
+    /**
+     * Adiciona Resultados na lista princiapal
+     * @param result
+     * @param chars
+     */
     private void addResultPrincipal(double result, Character chars){
         temporario.clear();
         principal.add(String.valueOf(result));
         unirChars.append(String.valueOf(chars));
     }
 
+    /**
+     * Adicona resultados na lista temporaria
+     * @param result
+     */
     private void addResultTemporario(double result){
         temporario.clear();
         temporario.add(String.valueOf(result));
     }
 
+    /**
+     * Adiciona chars à lista temporaria
+     */
     public void addCharsTemporario(){
         temporario.add(unirChars.toString());
         unirChars = new StringBuilder();
+    }
+
+    /**
+     * Adicona o sinal negativo no inicio da String de chars
+     * @param caractere
+     */
+    private void addSinalNegativo(char caractere){
+        unirChars = new StringBuilder();
+        unirChars.append(String.valueOf(caractere));
+        isSomSub = true;
+        inicioNegativo = false;
+    }
+
+    /**
+     * Define a localização de sinais
+     */
+    private void definirPosicaoSeMaisOuMenos(){
+        isMultDivAnterior = isMultDiv;
+        isMultDiv = false;
+        isSomSubAnterior = isSomSub;
+        isSomSub = true;
+    }
+
+    /**
+     * Define a localização de sinais
+     */
+
+    private void definirPosicaoSeVezesOuDiv(){
+        isMultDivAnterior = isMultDiv;
+        isMultDiv = true;
+        isSomSubAnterior = isSomSub;
+        isSomSub = false;
     }
     /**
      *
@@ -109,9 +157,9 @@ public class Calculadora implements OperacoesI{
         // DEFINIÇÃO DA VARIÁVEL UNIRCHAR (CHAR ÚNICO) TENDO COMO CHAR INICIAL '+'
         unirChars = new StringBuilder("+");
         // DEFINIÇÃO DE TODAS AS BOOLEANAS NECESSÁRIAS AO MÉTODO
-        boolean inicioNegativo = caracteres.get(0) == '-',
-                isSomSub = true, isMultDiv = false,
-                isSomSubAnterior = false, isMultDivAnterior = false;
+         inicioNegativo = caracteres.get(0) == '-';
+         isSomSub = true; isMultDiv = false;
+         isSomSubAnterior = false; isMultDivAnterior = false;
 
         // DEFINIÇÃO DA VARIÁVEL DE RESULTADO FINAL DA CONTA
         double result = 0;
@@ -127,40 +175,32 @@ public class Calculadora implements OperacoesI{
         for (Character chars : caracteres) {
             // AQUI É FEITA A VERIFICAÇÃO DE SINAL NEGATIVO NO PRIMEIRO NÚMERO.
             if (inicioNegativo) {
-                // CASO A VERIFICAÇÃO SEJA POSITIVA UNICHAR É LIMPO.
-                unirChars = new StringBuilder();
-                // E ESSE SINAL NEGATIVO ('-') É INCORPORADO A UNICHAR
-                // SUBSTITUINDO ('+') ATRIBUIDO NO MOMENTO DE SUA INICIALIZAÇÃO.
-                unirChars.append(String.valueOf(chars));
-                // ATRIBUIMOS TRUE A ISSOMSUB JA QUE '-' REPRESENTA UMA SUBTRAÇÃO
-                isSomSub = true;
-                // FALSE EM INICIONEGATIVO JÁ QUE ESSA VERIFICAÇÃO SÓ DEVE
-                // OCORRER NO PRIMEIRO CHAR DA LISTA UMA VEZ.
-                inicioNegativo = false;
-                // PARA PASSAR PARA O PRÓXIMO CHAR.
+                addSinalNegativo(chars);
                 continue;
             }
-
+//            VERIFICA SE O CARACTERE chars É UM + OU -
             if (chars == '+' || chars == '-') {
                 /*
-                OS BOOLEANOS DE VERIFICAÇÃO DE SINAIS SERVEM PARA DIZER QUAL FOI O ULTIMO SINAL QUE APARECU
-                E QUAL O SINAL ATUAL.
+                OS BOOLEANOS DE DEFINIÇAO DE SINAIS SERVEM PARA DEFINIR QUAL FOI O
+                ULTIMO SINAL QUE APARECU E QUAL O SINAL ATUAL.
                  */
-                isMultDivAnterior = isMultDiv;
-                isMultDiv = false;
-                isSomSubAnterior = isSomSub;
-                isSomSub = true;
+                definirPosicaoSeMaisOuMenos();
 
+                /*
+                cASO NÃO HAJA NENHUM SINAL DE MULTIPLICAÇÃO A DIREITA OU
+                A ESQUERDA DO NÚMERO ELE É ADICIONADO NA LISTA PRINCIPAL
+                 */
                 // CASO +/-12345+/-
                 if (isSomSubAnterior && isSomSub) {
-//                    UNICHAR ADICIONADO A LISTA PRINCIPAL
                     principal.add(unirChars.toString());
-//                    LIMPA UNICHAR E ADICIONA O SINAL DE + OU - DE FORMA QUE UNICHAR TENHA SEMPRE UM DESSES
-//                    DOIS NO COMEÇO.
                     unirChars = new StringBuilder();
                     unirChars.append(String.valueOf(chars));
                     continue;
                 }
+                /*
+                CASO UM CHARS X/÷ SEJA ENCONTRATO A ESQUER OU A DIREITA DO NÚMERO
+                ELE VAI PARA A LISTA TEMPORARIA
+                 */
 //               CASO X/÷12345+/-
                 if (isMultDivAnterior && isSomSub) {
                     addCharsTemporario();
@@ -186,10 +226,7 @@ public class Calculadora implements OperacoesI{
             }
 
             if(chars == 'x' || chars == '÷'){
-                isMultDivAnterior = isMultDiv;
-                isMultDiv = true;
-                isSomSubAnterior = isSomSub;
-                isSomSub = false;
+                definirPosicaoSeVezesOuDiv();
 
 //                CASE +/-12345X/÷
                 if(isSomSubAnterior && isMultDiv){
@@ -224,7 +261,7 @@ public class Calculadora implements OperacoesI{
                     }
                 }
             }
-//            CASO O CHAR SEJA QUALQUER OUTRA COISA ELE É ADICIONADO DIRETAMENTE
+//            CASO O CHARS SEJA UM NUMERO ELE É ADICIONADO A STRING DE CHARS
             unirChars.append(String.valueOf(chars));
         }
 //      ADICIONANDO O ULTIMO CHAR DA LISTA DE CARACTERES À LISTA PRINCIPAL
