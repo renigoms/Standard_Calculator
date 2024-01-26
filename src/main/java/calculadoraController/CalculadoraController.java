@@ -287,17 +287,8 @@ public class CalculadoraController implements ActionListener {
 
                     for (int i=0;i<3;i++)
                         listChars.remove(listChars.size() - 1);
-
-                    char[] newchar = new char[listChars.size()];
-
-                    for (int i = 0; i < listChars.size(); i++)
-                        newchar[i] = listChars.get(i);
-
-                    areaDeTexto.setText(new String(newchar)+dig);
                     isPonto = true;
-                    return true;
-                }
-                listChars.remove(listChars.size() - 1);
+                }else listChars.remove(listChars.size() - 1);
 
                 char[] newchar = new char[listChars.size()];
 
