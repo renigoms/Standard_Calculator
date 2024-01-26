@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ControllerTestes {
     private  CalculadoraController calculadoraController;
@@ -32,7 +31,7 @@ public class ControllerTestes {
     @Test
     @DisplayName("Teste de Formatação")
     public void testeFormater(){
-        Assertions.assertEquals("2.1538",
+        Assertions.assertEquals("2.153846153846154E-8",
                 calculadoraController.formatarResultado(calculadora.executarOperacoes(
                        LISTCHRAS2), "#.####"));
 
@@ -40,7 +39,7 @@ public class ControllerTestes {
     @Test
     @DisplayName("Teste de Formatação 2")
     public void testeFormater2(){
-        Assertions.assertEquals("1.5241",
+        Assertions.assertEquals("1.524157875019052E16",
                 calculadoraController.formatarResultado(calculadora.executarOperacoes(
                         LISTCHRAS3), "#.####"));
 

@@ -14,7 +14,6 @@ public class App {
     @SuppressWarnings("unused")
     public static void main(String[] args) {
         try {
-
             templateNimbus();
             TelaPrincipal telaPrincipal = new TelaPrincipal();
             CalculadoraController calculadoraController = new CalculadoraController(telaPrincipal);

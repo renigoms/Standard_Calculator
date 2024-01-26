@@ -1,13 +1,14 @@
 package calculadoraModelTeste;
 
-import calculadoraModel.Calculadora;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import calculadoraModel.Calculadora;
 
 public class CalculadoraTeste {
     private final ArrayList<Character> LISTCHARS = new ArrayList<>(), LISTCHRAS2 = new ArrayList<>(),

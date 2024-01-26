@@ -64,6 +64,7 @@ public class CalculadoraController implements ActionListener {
      */
     private boolean controlSegDigEmDiant(String dig) {
         if (isOperationPerformed){
+            isPonto = true;
             isOperationPerformed = false;
             return false;
         }
@@ -268,17 +269,34 @@ public class CalculadoraController implements ActionListener {
     /**
      * Realiza o controle da digitacão dos caracteres especiais
      * @param dig
-     * @return
+     * @return true or false
      */
     private boolean controlCharacEsp(String dig) {
         if(areaDeTexto.getText().length() >= 1) {
             ArrayList<Character> listChars = new ArrayList<>();
+
             for (char chars : areaDeTexto.getText().toCharArray())
                 listChars.add(chars);
 
             if (isSinaisEspeciaisInEnd(areaDeTexto.getText()) ||
                     listChars.get(listChars.size() - 1) == '.') {
 
+                if(listChars.get(listChars.size() - 2) == '0'&&
+                        listChars.get(listChars.size()-1) == '.'&&
+                        !dig.equals(".")){
+
+                    for (int i=0;i<3;i++)
+                        listChars.remove(listChars.size() - 1);
+
+                    char[] newchar = new char[listChars.size()];
+
+                    for (int i = 0; i < listChars.size(); i++)
+                        newchar[i] = listChars.get(i);
+
+                    areaDeTexto.setText(new String(newchar)+dig);
+                    isPonto = true;
+                    return true;
+                }
                 listChars.remove(listChars.size() - 1);
 
                 char[] newchar = new char[listChars.size()];
@@ -288,7 +306,6 @@ public class CalculadoraController implements ActionListener {
 
                 areaDeTexto.setText(new String(newchar)+dig);
                 return true;
-
             }
             isOperationPerformed = false;
             areaDeTexto.setText(areaDeTexto.getText() + dig);
