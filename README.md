@@ -1,7 +1,7 @@
 # Standard_Calculator
 
-## Introdução 📝
-* Projeto de uma calculadora padrão, feita em java, usando a ferramenta swing e o padrão de projeto MVC.
+### Introdução 📝
+* Projeto de uma calculaadora padrão feita em java, usando a ferramenta swing e o padrão de projeto MVC.
 
 * Possui, além das 4 fundamentais, a operação de raiz quadrada. No teclado o atalho para raiz quadrada é a letra R.
 
