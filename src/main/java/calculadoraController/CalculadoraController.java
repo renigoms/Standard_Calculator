@@ -17,12 +17,12 @@ import calculadoraView.TelaPrincipal;
 
 public class CalculadoraController implements ActionListener {
     @SuppressWarnings("unused")
-    private TelaPrincipal telaPrincipal;
-    private PainelDeDigitos digitos;
-    private JTextField areaDeTexto;
-    private Calculadora calculadora;
-    private ResultadosOperacoes resultadosOperacoes;
-    private KeyHandler keyHandler;
+    private final TelaPrincipal telaPrincipal;
+    private final PainelDeDigitos digitos;
+    private final JTextField areaDeTexto;
+    private final Calculadora calculadora;
+    private final ResultadosOperacoes resultadosOperacoes;
+    private final KeyHandler keyHandler;
     private boolean isPonto;
     private boolean isOperationPerformed;
 
@@ -59,8 +59,6 @@ public class CalculadoraController implements ActionListener {
     }
     /**
      * Realiza o controle dos caracteres numericos
-     * @param dig
-     * @return
      */
     private boolean controlSegDigEmDiant(String dig) {
         if (isOperationPerformed){
@@ -93,126 +91,44 @@ public class CalculadoraController implements ActionListener {
 
     private void control() {
 //		BOTÃO ON
-        digitos.getLigar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ligarDesligarCalculadora(true, "0");
-            }
-        });
+        digitos.getLigar().addActionListener(e -> ligarDesligarCalculadora(true, "0"));
 
 //		BOTÃO OFF
-        digitos.getButtonOff().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ligarDesligarCalculadora(false, "");
-            }
-        });
+        digitos.getButtonOff().addActionListener(e -> ligarDesligarCalculadora(false, ""));
 
 //		BOTÃO DE ADIÇÃO
 
-        digitos.getMais().addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlCaracteresEspeciais("+");
-            }
-        });
+        digitos.getMais().addActionListener(e -> controlCaracteresEspeciais("+"));
 
 //		BOTÃO SUBTRAÇÃO
 
-        digitos.getMenos().addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (calculadora.isLigada()) {
-                    isPonto = true;
-                    if (!controlCharacEsp("-"))
-                        areaDeTexto.setText("-");
-                }
-
+        digitos.getMenos().addActionListener(e -> {
+            if (calculadora.isLigada()) {
+                isPonto = true;
+                if (!controlCharacEsp("-"))
+                    areaDeTexto.setText("-");
             }
+
         });
 
 //		BOTÃO MULTIPLICAÇÃO
 
-        digitos.getVezes().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlCaracteresEspeciais("x");
-            }
-        });
+        digitos.getVezes().addActionListener(e -> controlCaracteresEspeciais("x"));
 //		BOTÃO DIVISÃO
-        digitos.getDividir().addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               controlCaracteresEspeciais("÷");
-            }
-        });
+        digitos.getDividir().addActionListener(e -> controlCaracteresEspeciais("÷"));
 
 //		NÚMEROS DE 0 AO 9
 
-        digitos.getUm().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlCaracteresNomais("1");
-            }
-        });
-        digitos.getDOIS().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlCaracteresNomais("2");
-            }
-        });
-        digitos.getTRES().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlCaracteresNomais("3");
-
-            }
-        });
-        digitos.getQuatro().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               controlCaracteresNomais("4");
-            }
-        });
-        digitos.getCinco().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               controlCaracteresNomais("5");
-            }
-        });
-        digitos.getSeis().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               controlCaracteresNomais("6");
-            }
-        });
-        digitos.getSete().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               controlCaracteresNomais("7");
-            }
-        });
-        digitos.getOito().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               controlCaracteresNomais("8");
-            }
-        });
-        digitos.getNove().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlCaracteresNomais("9");
-            }
-        });
-        digitos.getZero().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controlCaracteresNomais("0");
-            }
-        });
+        digitos.getUm().addActionListener(e -> controlCaracteresNomais("1"));
+        digitos.getDOIS().addActionListener(e -> controlCaracteresNomais("2"));
+        digitos.getTRES().addActionListener(e -> controlCaracteresNomais("3"));
+        digitos.getQuatro().addActionListener(e -> controlCaracteresNomais("4"));
+        digitos.getCinco().addActionListener(e -> controlCaracteresNomais("5"));
+        digitos.getSeis().addActionListener(e -> controlCaracteresNomais("6"));
+        digitos.getSete().addActionListener(e -> controlCaracteresNomais("7"));
+        digitos.getOito().addActionListener(e -> controlCaracteresNomais("8"));
+        digitos.getNove().addActionListener(e -> controlCaracteresNomais("9"));
+        digitos.getZero().addActionListener(e -> controlCaracteresNomais("0"));
     }
 
 //	ALGUNS CARACTERES ESPECIAIS
@@ -261,14 +177,11 @@ public class CalculadoraController implements ActionListener {
     }
 //    verifica se há caracteres especiais no fim da String
     private boolean isSinaisEspeciaisInEnd(String text){
-        if(text.charAt(text.length()-1)=='÷'|| text.charAt(text.length()-1)=='+'||
-                text.charAt(text.length()-1)=='-'|| text.charAt(text.length()-1)=='x')
-            return true;
-        return false;
+        return text.charAt(text.length() - 1) == '÷' || text.charAt(text.length() - 1) == '+' ||
+                text.charAt(text.length() - 1) == '-' || text.charAt(text.length() - 1) == 'x';
     }
     /**
      * Realiza o controle da digitacão dos caracteres especiais
-     * @param dig
      * @return true or false
      */
     private boolean controlCharacEsp(String dig) {
@@ -315,10 +228,7 @@ public class CalculadoraController implements ActionListener {
     }
 
     /**
-     *
-     * @param resultado
-     * @param mask
-     * @return Retorna uma String formatada, de acordo com a máscara especificada,
+     *  @return Retorna uma String formatada, conforme a máscara especificada,
      * do resultado passado.
      */
 
