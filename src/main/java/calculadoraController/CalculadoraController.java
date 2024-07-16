@@ -13,7 +13,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CalculadoraController implements ActionListener {
+public class CalculadoraController{
 
     private final TelaPrincipal telaPrincipal;
     private final PainelDeDigitos digitos;
@@ -56,34 +56,5 @@ public class CalculadoraController implements ActionListener {
         tecladoActions.sinaisEspeciais();
 //		NÚMEROS DE 0 A 9
         tecladoActions.digitosNumericos();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-////		BOTÃO DE RAIZ QUADRADA
-//        if (e.getSource() == digitos.getRaiz()) {
-//            raizQuadradaService.raizQuadConfig(
-//                    calculadoraService,
-//                    areaDeTexto,
-//                    pointManager
-//            );
-//        }
-//
-////		BOTÃO PONTO
-//
-//        if (e.getSource() == digitos.getPonto()) {
-//            pointManager.pointConfig(areaDeTexto, calculadoraService, caracterConfig);
-//        }
-//
-////		BOTÃO DE APAGAR
-//
-//        if (e.getSource() == digitos.getApagar()) {
-//            apagarService.apagarActionConfig(
-//                    areaDeTexto,
-//                    pointManager,
-//                    calculadoraService
-//            );
-//        }
-
     }
 }
