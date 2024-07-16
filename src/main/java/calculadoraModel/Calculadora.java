@@ -1,13 +1,20 @@
 package calculadoraModel;
 
+import calculadoraModel.utils.Utils;
+import operationperformed.Sinais;
+
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Calculadora implements OperacoesI{
+    public static final int ONE = 1;
+    public static final int ZERO = 0;
     private boolean isLigada;
     private ArrayList<String> principal ,temporario;
     private StringBuilder unirChars;
     private boolean inicioNegativo, isSomSub, isMultDiv, isSomSubAnterior, isMultDivAnterior;
     public Calculadora() {
+
         isLigada = false;
     }
     /**
@@ -16,12 +23,9 @@ public class Calculadora implements OperacoesI{
      */
     @Override
     public double soma(ArrayList<Double> num) {
-        double soma = 0;
-        for(Double nums:num)
-            soma+=nums;
-        return num.size() == 1 ? num.get(0) : soma;
+        double soma = num.stream().mapToDouble(Double::doubleValue).sum();
+        return num.size() == ONE ? num.get(ZERO) : soma;
     }
-
     /**
      *
      * @param num
@@ -29,123 +33,25 @@ public class Calculadora implements OperacoesI{
      */
     @Override
     public double multiplicacao(ArrayList<Double> num) {
-        double mult = 1;
-        for(double nums:num)
-            mult*=nums;
-        return num.size() == 1 ? num.get(0) : mult;
+        double mult = ONE;
+        mult = num.stream().reduce(mult, (a, b) -> a*b);
+        return num.size() == ONE ? num.get(ZERO) : mult;
     }
 
     /**
      *
-     * @param num
+     * @param nums
      * @return A divisão de valores no da lista de doubles fornecida
      */
     @Override
-    public double divisao(ArrayList<Double> num) {
-        double div = num.get(0), numSizeInit = num.size();
-        num.remove(0);
-        for(double nums:num)
-            div/=nums;
-        return numSizeInit == 1 ? num.get(0) : div;
+    public double divisao(ArrayList<Double> nums) {
+        double div = nums.get(ZERO), numSizeInit = nums.size();
+        nums.remove(ZERO);
+        div = nums.stream().reduce(div, (x,y) -> x/y);
+        return numSizeInit == ONE ? nums.get(ZERO) : div;
     }
 
-    /**
-     *
-     * @param stringInput
-     *
-     * <p>Converte um <strong>'ArrayList(String)'</strong> como entrada em um
-     * <strong>ArrayList(Double)</strong> na saída.</p>
-     */
 
-    private ArrayList<Double> convArrayListString(ArrayList<String> stringInput) {
-        ArrayList<Double> numOperacao = new ArrayList<>();
-        for(String str:stringInput) {
-            numOperacao.add(Double.parseDouble(str));
-        }
-        return numOperacao;
-    }
-
-    /**
-     * Método que realiza todas as multiplicações
-     * prioritarias
-     * @param temporario
-     * @return
-     */
-
-    private double multiplicacaoPrioritaria(ArrayList<String> temporario){
-        temporario.remove(1);
-        return multiplicacao(convArrayListString(temporario));
-    }
-
-    /**
-     * Método que realiza todas as divisões prioritarias
-     * @param temporario
-     * @return
-     */
-    private double divisaoPrioritaria(ArrayList<String> temporario){
-        temporario.remove(1);
-        return divisao(convArrayListString(temporario));
-    }
-
-    /**
-     * Adiciona Resultados na lista princiapal
-     * @param result
-     * @param chars
-     */
-    private void addResultPrincipal(double result, Character chars){
-        temporario.clear();
-        principal.add(String.valueOf(result));
-        unirChars.append(String.valueOf(chars));
-    }
-
-    /**
-     * Adicona resultados na lista temporaria
-     * @param result
-     */
-    private void addResultTemporario(double result){
-        temporario.clear();
-        temporario.add(String.valueOf(result));
-    }
-
-    /**
-     * Adiciona chars à lista temporaria
-     */
-    public void addCharsTemporario(){
-        temporario.add(unirChars.toString());
-        unirChars = new StringBuilder();
-    }
-
-    /**
-     * Adicona o sinal negativo no inicio da String de chars
-     * @param caractere
-     */
-    private void addSinalNegativo(char caractere){
-        unirChars = new StringBuilder();
-        unirChars.append(String.valueOf(caractere));
-        isSomSub = true;
-        inicioNegativo = false;
-    }
-
-    /**
-     * Define a localização de sinais
-     */
-    private void definirPosicaoSeMaisOuMenos(){
-        isMultDivAnterior = isMultDiv;
-        isMultDiv = false;
-        isSomSubAnterior = isSomSub;
-        isSomSub = true;
-    }
-
-    /**
-     * Define a localização de sinais
-     */
-
-    private void definirPosicaoSeVezesOuDiv(){
-        isMultDivAnterior = isMultDiv;
-        isMultDiv = true;
-        isSomSubAnterior = isSomSub;
-        isSomSub = false;
-    }
     /**
      *
      * @param caracteres — > ArrayList com a equação a ser calculada.
@@ -155,14 +61,14 @@ public class Calculadora implements OperacoesI{
     @Override
     public double executarOperacoes(ArrayList<Character> caracteres) {
         // DEFINIÇÃO DA VARIÁVEL UNIRCHAR (CHAR ÚNICO) TENDO COMO CHAR INICIAL '+'
-        unirChars = new StringBuilder("+");
+        unirChars = new StringBuilder(Sinais.ADICAO.getValue());
         // DEFINIÇÃO DE TODAS AS BOOLEANAS NECESSÁRIAS AO MÉTODO
-         inicioNegativo = caracteres.get(0) == '-';
+         inicioNegativo = caracteres.get(ZERO) == Sinais.SUBTRACAO.toChar();
          isSomSub = true; isMultDiv = false;
          isSomSubAnterior = false; isMultDivAnterior = false;
 
         // DEFINIÇÃO DA VARIÁVEL DE RESULTADO FINAL DA CONTA
-        double result = 0;
+        double result;
 
          /*
             O ALGORITMO UTILIZA DE DOIS ARRAYLISTS: UM PRINCIPAL E UM TEMPORARIO QUE SERÁ USADO COMO
@@ -175,16 +81,16 @@ public class Calculadora implements OperacoesI{
         for (Character chars : caracteres) {
             // AQUI É FEITA A VERIFICAÇÃO DE SINAL NEGATIVO NO PRIMEIRO NÚMERO.
             if (inicioNegativo) {
-                addSinalNegativo(chars);
+                Utils.addSinalNegativo(chars, this);
                 continue;
             }
 //            VERIFICA SE O CARACTERE chars É UM + OU -
-            if (chars == '+' || chars == '-') {
+            if (chars.charValue() == Sinais.ADICAO.toChar() || chars.charValue() == Sinais.SUBTRACAO.toChar()) {
                 /*
                 OS BOOLEANOS DE DEFINIÇAO DE SINAIS SERVEM PARA DEFINIR QUAL FOI O
                 ULTIMO SINAL QUE APARECU E QUAL O SINAL ATUAL.
                  */
-                definirPosicaoSeMaisOuMenos();
+                Utils.definirPosicaoSeMaisOuMenos(this);
 
                 /*
                 cASO NÃO HAJA NENHUM SINAL DE MULTIPLICAÇÃO A DIREITA OU
@@ -194,7 +100,7 @@ public class Calculadora implements OperacoesI{
                 if (isSomSubAnterior && isSomSub) {
                     principal.add(unirChars.toString());
                     unirChars = new StringBuilder();
-                    unirChars.append(String.valueOf(chars));
+                    unirChars.append(chars);
                     continue;
                 }
                 /*
@@ -203,21 +109,21 @@ public class Calculadora implements OperacoesI{
                  */
 //               CASO X/÷12345+/-
                 if (isMultDivAnterior && isSomSub) {
-                    addCharsTemporario();
+                    Utils.addCharsTemporario(temporario, this);
                     /*
                     NESSE CASO QUANDO TEPORARIO ATINGIR TAMANHO 3, ELE SERÁ COMPOSTO DE UM SINAL X/÷
                     NO MEIO E DOIS NÚMEROS ISSO SERVE PARA SEMPRE REALIZAR AS CONTAS DE DIVISÃO E
                     MULTIPLICAÇÃO COM PRIORIDADE DE ACORDO COM O SINAL.
                      */
                     if (temporario.size() == 3) {
-                        switch(temporario.get(1)){
+                        switch(temporario.get(ONE)){
                             case "x":
-                                result = multiplicacaoPrioritaria(temporario);
-                                addResultPrincipal(result, chars);
+                                result = Utils.multiplicacaoPrioritaria(temporario, this);
+                                Utils.addResultPrincipal(result, chars, temporario, principal, unirChars);
                                 continue;
                             case "÷":
-                                result = divisaoPrioritaria(temporario);
-                                addResultPrincipal(result, chars);
+                                result = Utils.divisaoPrioritaria(temporario, this);
+                                Utils.addResultPrincipal(result, chars, temporario, principal, unirChars);
                                 continue;
                         }
                     }
@@ -225,36 +131,36 @@ public class Calculadora implements OperacoesI{
 
             }
 
-            if(chars == 'x' || chars == '÷'){
-                definirPosicaoSeVezesOuDiv();
+            if(chars.charValue() == Sinais.MULTIPLICACAO.toChar() || chars.charValue() == Sinais.DIVISAO.toChar()){
+                Utils.definirPosicaoSeVezesOuDiv(this);
 
 //                CASE +/-12345X/÷
                 if(isSomSubAnterior && isMultDiv){
-                    addCharsTemporario();
-                    unirChars.append(String.valueOf(chars));
-                    addCharsTemporario();
+                    Utils.addCharsTemporario(temporario, this);
+                    unirChars.append(chars);
+                    Utils.addCharsTemporario(temporario, this);
                     continue;
 
                 }
 //                CASE X/÷123456X/÷
                 if(isMultDivAnterior && isMultDiv){
-                    addCharsTemporario();
+                    Utils.addCharsTemporario(temporario, this);
                     if(temporario.size() == 3){
-                        switch (temporario.get(1)){
+                        switch (temporario.get(ONE)){
                             case "x":
-                                result = multiplicacaoPrioritaria(temporario);
-                               addResultTemporario(result);
-                                if(chars == 'x' || chars == '÷'){
-                                    unirChars.append(String.valueOf(chars));
-                                    addCharsTemporario();
+                                result = Utils.multiplicacaoPrioritaria(temporario, this);
+                               Utils.addResultTemporario(result, temporario);
+                                if(chars.charValue() == Sinais.MULTIPLICACAO.toChar() || chars.charValue() == Sinais.DIVISAO.toChar()){
+                                    unirChars.append(chars);
+                                    Utils.addCharsTemporario(temporario, this);
                                 }
                                 continue;
                             case "÷":
-                                result = divisaoPrioritaria(temporario);
-                                addResultTemporario(result);
-                                if(chars == 'x' || chars == '÷'){
-                                    unirChars.append(String.valueOf(chars));
-                                    addCharsTemporario();
+                                result = Utils.divisaoPrioritaria(temporario, this);
+                                Utils.addResultTemporario(result, temporario);
+                                if(chars.charValue() == Sinais.MULTIPLICACAO.toChar() || chars.charValue() == Sinais.DIVISAO.toChar()){
+                                    unirChars.append(chars);
+                                    Utils.addCharsTemporario(temporario, this);
                                 }
                                 continue;
                         }
@@ -262,7 +168,7 @@ public class Calculadora implements OperacoesI{
                 }
             }
 //            CASO O CHARS SEJA UM NUMERO ELE É ADICIONADO A STRING DE CHARS
-            unirChars.append(String.valueOf(chars));
+            unirChars.append(chars);
         }
 //      ADICIONANDO O ULTIMO CHAR DA LISTA DE CARACTERES À LISTA PRINCIPAL
         if(isSomSub)  principal.add(unirChars.toString());
@@ -270,13 +176,13 @@ public class Calculadora implements OperacoesI{
         if(isMultDiv) temporario.add(unirChars.toString());
 //        EXECUTANDO MULTIPLICAÇÕES OU DIVISÕES DA PONTA FINAL DA LISTA DE CARACTERES
         if(temporario.size() == 3){
-            switch (temporario.get(1)){
+            switch (temporario.get(ONE)){
                 case "x":
-                    result = multiplicacaoPrioritaria(temporario);
+                    result = Utils.multiplicacaoPrioritaria(temporario, this);
                     principal.add(String.valueOf(result));
                     break;
                 case "÷":
-                    result = divisaoPrioritaria(temporario);
+                    result = Utils.divisaoPrioritaria(temporario, this);
                     principal.add(String.valueOf(result));
                     break;
             }
@@ -285,7 +191,12 @@ public class Calculadora implements OperacoesI{
         RETORNA UMA SOMA FINAL COM NUMEROS POSITIVOS E NEGATIVOS E OS RESULTADOS
         DAS MULTIPLICAÇÕES E DIVISÕES
          */
-        return soma(convArrayListString(principal));
+        return soma(
+                principal
+                        .stream()
+                        .map(Double::parseDouble)
+                        .collect(Collectors.toCollection(ArrayList::new))
+        );
     }
 
 //    CALCULO DE RAIZ QUADRADA
@@ -297,5 +208,53 @@ public class Calculadora implements OperacoesI{
     }
     public void setLigada(boolean isLigada) {
         this.isLigada = isLigada;
+    }
+
+    public boolean isInicioNegativo() {
+        return inicioNegativo;
+    }
+
+    public void setInicioNegativo(boolean inicioNegativo) {
+        this.inicioNegativo = inicioNegativo;
+    }
+
+    public boolean isSomSub() {
+        return isSomSub;
+    }
+
+    public void setSomSub(boolean somSub) {
+        isSomSub = somSub;
+    }
+
+    public boolean isMultDiv() {
+        return isMultDiv;
+    }
+
+    public void setMultDiv(boolean multDiv) {
+        isMultDiv = multDiv;
+    }
+
+    public boolean isSomSubAnterior() {
+        return isSomSubAnterior;
+    }
+
+    public void setSomSubAnterior(boolean somSubAnterior) {
+        isSomSubAnterior = somSubAnterior;
+    }
+
+    public boolean isMultDivAnterior() {
+        return isMultDivAnterior;
+    }
+
+    public void setMultDivAnterior(boolean multDivAnterior) {
+        isMultDivAnterior = multDivAnterior;
+    }
+
+    public StringBuilder getUnirChars() {
+        return unirChars;
+    }
+
+    public void setUnirChars(StringBuilder unirChars) {
+        this.unirChars = unirChars;
     }
 }
