@@ -50,9 +50,6 @@ public class TecladoActions {
         digitos.getRaiz().addKeyListener(keyHandler);
     }
     public void teclasDeFuncionamento(){
-        digitos.getRaiz().addActionListener(controller);
-        digitos.getPonto().addActionListener(controller);
-        digitos.getApagar().addActionListener(controller);
         digitos.getIgual().addActionListener(resultadosOperacoes);
         areaDeTexto.addKeyListener(keyHandler);
     }
