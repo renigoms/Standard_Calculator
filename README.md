@@ -12,6 +12,15 @@
     <img src="src/main/img/img_calculadora.png" alt="img Calculadora">
 </div>
 
+### Atualizações 16-07-2024
+
+* **A quem puder interessar:** Olá pessoa que se interessou em acompanha esse projeto le trago boas novas !!!  <br> 
+    Dei uma leve refatorada no código da calculadora e fico feliz em anunciar que ele está menos assemelhado <br>
+    com a casa da *Mãe Joana*. Brincadeiras a parte, também aviso que novas features estão por vim só não <br>
+    garanto quando, mas garanto que qualquer sujestão de melhoria será bem-vida. <br>Obrigado e apreciem sem moderação kkkk
+
+
+
 
 
 

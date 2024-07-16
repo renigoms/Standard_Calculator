@@ -1,14 +1,18 @@
 package calculadoraControllerTeste;
 
+import Validacoes.Validar;
 import calculadoraController.CalculadoraController;
 import calculadoraModel.Calculadora;
 import calculadoraView.TelaPrincipal;
+import configuration.FormatterConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ControllerTestes {
     private  CalculadoraController calculadoraController;
@@ -28,11 +32,13 @@ public class ControllerTestes {
         for(char chars2:EQUACAO2.toCharArray())
             LISTCHRAS3.add(chars2);
     }
+
+
     @Test
     @DisplayName("Teste de Formatação")
     public void testeFormater(){
         Assertions.assertEquals("2.153846153846154E-8",
-                calculadoraController.formatarResultado(calculadora.executarOperacoes(
+                FormatterConfig.formatarResultado(calculadora.executarOperacoes(
                        LISTCHRAS2), "#.####"));
 
     }
@@ -40,7 +46,7 @@ public class ControllerTestes {
     @DisplayName("Teste de Formatação 2")
     public void testeFormater2(){
         Assertions.assertEquals("1.524157875019052E16",
-                calculadoraController.formatarResultado(calculadora.executarOperacoes(
+                FormatterConfig.formatarResultado(calculadora.executarOperacoes(
                         LISTCHRAS3), "#.####"));
 
     }
