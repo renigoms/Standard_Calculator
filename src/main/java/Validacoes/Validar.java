@@ -23,10 +23,10 @@ public class Validar {
     }
 
     public static boolean temSinalAqui(ArrayList<Character> chars, int i){
-        return chars.get(i).charValue()== Sinais.ADICAO.toChar()||
-                chars.get(i).charValue()==Sinais.SUBTRACAO.toChar()||
-                chars.get(i).charValue()==Sinais.MULTIPLICACAO.toChar()||
-                chars.get(i).charValue()==Sinais.DIVISAO.toChar();
+        return chars.get(i)== Sinais.ADICAO.getValue()||
+                chars.get(i) ==Sinais.SUBTRACAO.getValue()||
+                chars.get(i)==Sinais.MULTIPLICACAO.getValue()||
+                chars.get(i)==Sinais.DIVISAO.getValue();
     }
 
 

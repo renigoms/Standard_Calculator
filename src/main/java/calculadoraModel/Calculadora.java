@@ -63,7 +63,7 @@ public class Calculadora implements OperacoesI{
         // DEFINIÇÃO DA VARIÁVEL UNIRCHAR (CHAR ÚNICO) TENDO COMO CHAR INICIAL '+'
         unirChars = new StringBuilder(Sinais.ADICAO.getValue());
         // DEFINIÇÃO DE TODAS AS BOOLEANAS NECESSÁRIAS AO MÉTODO
-         inicioNegativo = caracteres.get(ZERO).charValue() == Sinais.SUBTRACAO.toChar();
+         inicioNegativo = caracteres.get(ZERO).charValue() == Sinais.SUBTRACAO.;
          isSomSub = true; isMultDiv = false;
          isSomSubAnterior = false; isMultDivAnterior = false;
 
@@ -85,7 +85,7 @@ public class Calculadora implements OperacoesI{
                 continue;
             }
 //            VERIFICA SE O CARACTERE chars É UM + OU -
-            if (chars.charValue() == Sinais.ADICAO.toChar() || chars.charValue() == Sinais.SUBTRACAO.toChar()) {
+            if (chars == Sinais.ADICAO.getValue() || chars == Sinais.SUBTRACAO.getValue()) {
                 /*
                 OS BOOLEANOS DE DEFINIÇAO DE SINAIS SERVEM PARA DEFINIR QUAL FOI O
                 ULTIMO SINAL QUE APARECU E QUAL O SINAL ATUAL.
@@ -129,7 +129,7 @@ public class Calculadora implements OperacoesI{
 
             }
 
-            if(chars.charValue() == Sinais.MULTIPLICACAO.toChar() || chars.charValue() == Sinais.DIVISAO.toChar()){
+            if(chars == Sinais.MULTIPLICACAO.getValue() || chars == Sinais.DIVISAO.getValue()){
                 Utils.definirPosicaoSeVezesOuDiv(this);
 
 //                CASE +/-12345X/÷
@@ -148,7 +148,7 @@ public class Calculadora implements OperacoesI{
                             case "x":
                                 result = Utils.multiplicacaoPrioritaria(temporario, this);
                                Utils.addResultTemporario(result, temporario);
-                                if(chars.charValue() == Sinais.MULTIPLICACAO.toChar() || chars.charValue() == Sinais.DIVISAO.toChar()){
+                                if(chars == Sinais.MULTIPLICACAO.getValue() || chars == Sinais.DIVISAO.getValue()){
                                     unirChars.append(chars);
                                     Utils.addCharsTemporario(temporario, this);
                                 }
@@ -156,7 +156,7 @@ public class Calculadora implements OperacoesI{
                             case "÷":
                                 result = Utils.divisaoPrioritaria(temporario, this);
                                 Utils.addResultTemporario(result, temporario);
-                                if(chars.charValue() == Sinais.MULTIPLICACAO.toChar() || chars.charValue() == Sinais.DIVISAO.toChar()){
+                                if(chars == Sinais.MULTIPLICACAO.getValue()|| chars == Sinais.DIVISAO.getValue()){
                                     unirChars.append(chars);
                                     Utils.addCharsTemporario(temporario, this);
                                 }

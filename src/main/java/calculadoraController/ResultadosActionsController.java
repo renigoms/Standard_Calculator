@@ -51,7 +51,7 @@ public class ResultadosActionsController implements ActionListener {
                 String resultadoString = FormatterConfig.formatarResultado(
                         calculadoraService.executarOperacoesService(caracteres), "#.####");
                 for(char chars:resultadoString.toCharArray()) {
-                    if (chars == Sinais.PONTO.toChar()) {
+                    if (chars == Sinais.PONTO.getValue()) {
                         pointManager.setPonto(false);
                         break;
                     }

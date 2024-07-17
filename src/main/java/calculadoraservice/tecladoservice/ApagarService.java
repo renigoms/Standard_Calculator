@@ -17,12 +17,12 @@ public class ApagarService {
 
         if (!areaDeTexto.getText().isEmpty()) {
             chars = FormatterConfig.formartarArrayCharParaListCharacter(areaDeTexto.getText().toCharArray());
-            if (chars.get(0).charValue() == Sinais.SUBTRACAO.toChar())
+            if (chars.get(0) == Sinais.SUBTRACAO.getValue())
                 isMenosSinal = true;
 
-            else chars.add(0,Sinais.ADICAO.toChar());
+            else chars.add(0,Sinais.ADICAO.getValue());
 
-            if(chars.get(chars.size() - 1).charValue() == Sinais.PONTO.toChar())
+            if(chars.get(chars.size() - 1).charValue() == Sinais.PONTO.getValue())
                 pointManager.setPonto(true);
 
             if(Validar.isSinaisEspeciaisInEnd(areaDeTexto.getText())) {
@@ -37,7 +37,7 @@ public class ApagarService {
 
                     if(Validar.isSinaisEspeciaisInEnd(String.valueOf(chars.get(i))) && sinalInicial) {
                         sinalfinal = true;
-                        if(chars2.contains(Sinais.PONTO.toChar())) {
+                        if(chars2.contains(Sinais.PONTO.getValue())) {
                             pointManager.setPonto(false);
                             break;
                         }
