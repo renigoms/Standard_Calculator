@@ -63,7 +63,7 @@ public class Calculadora implements OperacoesI{
         // DEFINIÇÃO DA VARIÁVEL UNIRCHAR (CHAR ÚNICO) TENDO COMO CHAR INICIAL '+'
         unirChars = new StringBuilder(Sinais.ADICAO.getValue());
         // DEFINIÇÃO DE TODAS AS BOOLEANAS NECESSÁRIAS AO MÉTODO
-         inicioNegativo = caracteres.get(ZERO) == Sinais.SUBTRACAO.toChar();
+         inicioNegativo = caracteres.get(ZERO).charValue() == Sinais.SUBTRACAO.toChar();
          isSomSub = true; isMultDiv = false;
          isSomSubAnterior = false; isMultDivAnterior = false;
 
@@ -98,9 +98,7 @@ public class Calculadora implements OperacoesI{
                  */
                 // CASO +/-12345+/-
                 if (isSomSubAnterior && isSomSub) {
-                    principal.add(unirChars.toString());
-                    unirChars = new StringBuilder();
-                    unirChars.append(chars);
+                   Utils.addListaPrincipal(principal, this, chars);
                     continue;
                 }
                 /*
