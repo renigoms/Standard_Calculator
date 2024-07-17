@@ -10,6 +10,7 @@ import calculadoraservice.point.PointManager;
 import calculadoraservice.tecladoservice.ApagarService;
 import calculadoraservice.tecladoservice.RaizQuadradaService;
 import configuration.CaracterConfig;
+import configuration.FormatterConfig;
 import operationperformed.Sinais;
 
 import javax.swing.*;
@@ -17,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class CalculadoraService {
@@ -54,8 +57,9 @@ public class CalculadoraService {
         this.apagarService = new ApagarService();
     }
 
-    public double executarOperacoesService(ArrayList<Character> caractes){
-        return calculadora.executarOperacoes(caractes);
+    public double executarOperacoesService(char[] caractes){
+        ArrayList<Character> listCharacteres = FormatterConfig.formartarArrayCharParaListCharacter(caractes);
+        return calculadora.executarOperacoes(listCharacteres);
     }
 
     public double getRaizQuadrada(String numText){

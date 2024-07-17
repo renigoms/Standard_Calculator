@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ResultadosActionsController implements ActionListener {
-    private ArrayList<Character> caracteres;
 
     private JTextField areaDeTexto;
 
@@ -32,12 +31,6 @@ public class ResultadosActionsController implements ActionListener {
         areaDeTexto = telaPrincipal.getAreaDeExibicao();
     }
 
-    //        DIVIDE A STRING ORIGINARIA DO VISOR EM UMA LISTA DE CHARS
-    private void listChars() {
-        this.caracteres = new ArrayList<>();
-        for (char chars:areaDeTexto.getText().toCharArray())
-            caracteres.add(chars);
-    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!areaDeTexto.getText().isEmpty() && calculadoraService.isCalculateOn()) {
@@ -51,8 +44,10 @@ public class ResultadosActionsController implements ActionListener {
                 if (Validar.isSinaisEspeciaisInEnd(areaDeTexto.getText()))
                     throw new OperacaoInvalidaException("Operação inválida");
 
-//					OPERAÇÕES:
-                listChars(); //lista de chars na area de texto
+//				OPERAÇÕES:
+                char [] caracteres = areaDeTexto.getText().toCharArray();
+
+
                 String resultadoString = FormatterConfig.formatarResultado(
                         calculadoraService.executarOperacoesService(caracteres), "#.####");
                 for(char chars:resultadoString.toCharArray()) {

@@ -6,6 +6,7 @@ import calculadoraservice.CalculadoraService;
 import calculadoraservice.point.PointManager;
 import configuration.FormatterConfig;
 import operationperformed.Operation;
+import operationperformed.Sinais;
 
 import javax.swing.*;
 
@@ -16,12 +17,13 @@ public class RaizQuadradaService {
     public void raizQuadConfig(CalculadoraService calculadoraService, JTextField areaDeTexto, PointManager pointManager){
         try {
             if(!areaDeTexto.getText().isEmpty() && calculadoraService.isCalculateOn()) {
-                if (Validar.isSinaisEspeciaisInEnd(areaDeTexto.getText()) || areaDeTexto.getText().charAt(0)=='-')
+                if (Validar.isSinaisEspeciaisInEnd(areaDeTexto.getText()) ||
+                        areaDeTexto.getText().charAt(0)== Sinais.SUBTRACAO.toChar())
                     throw new OperacaoInvalidaException("Operação inválida");
                 String resultadoString = FormatterConfig.formatarResultado(calculadoraService.getRaizQuadrada(areaDeTexto.getText()),
                         MASK);
                 for(char chars:resultadoString.toCharArray()) {
-                    if (chars == '.'){
+                    if (chars == Sinais.PONTO.toChar()){
                         pointManager.setPonto(false);
                         break;
                     }else pointManager.setPonto(true);
