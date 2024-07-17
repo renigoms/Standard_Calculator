@@ -101,4 +101,10 @@ public class Utils {
                         .collect(Collectors.toCollection(ArrayList::new))
         );
     }
+
+    public static void addListaPrincipal(ArrayList<String> principal, Calculadora calculadora, Character chars){
+        principal.add(calculadora.getUnirChars().toString());
+        calculadora.setUnirChars(new StringBuilder());
+        calculadora.getUnirChars().append(chars);
+    }
 }
