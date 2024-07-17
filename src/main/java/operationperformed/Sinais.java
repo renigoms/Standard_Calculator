@@ -2,27 +2,24 @@ package operationperformed;
 
 public enum Sinais {
 
-    ADICAO("+"),
-    MULTIPLICACAO("x"),
-    SUBTRACAO("-"),
-    DIVISAO("÷"),
-    PONTO(".");
+    ADICAO('+'),
+    MULTIPLICACAO('x'),
+    SUBTRACAO('-'),
+    DIVISAO('÷'),
+    PONTO('.');
 
-    private final String value;
+    private final char value;
 
-    Sinais(String value) {
+    Sinais(char value) {
         this.value = value;
     }
 
-    public String getValue() {
+    public char getValue() {
         return value;
     }
 
-    public Character toChar(){
-        return value.charAt(0);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(Sinais.DIVISAO.toChar()==Character.valueOf('÷').charValue());
+    @Override
+    public String toString() {
+        return String.valueOf(value);
     }
 }

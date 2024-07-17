@@ -102,7 +102,7 @@ public class CalculadoraService {
 
 //		BOTÃO DE ADIÇÃO
 
-        digitos.getMais().addActionListener(e -> caracterConfig.controlCaracteresEspeciais(Sinais.ADICAO.getValue()));
+        digitos.getMais().addActionListener(e -> caracterConfig.controlCaracteresEspeciais(Sinais.ADICAO.toString()));
 
 //		BOTÃO SUBTRAÇÃO
 
@@ -110,9 +110,9 @@ public class CalculadoraService {
 
 //		BOTÃO MULTIPLICAÇÃO
 
-        digitos.getVezes().addActionListener(e -> caracterConfig.controlCaracteresEspeciais(Sinais.MULTIPLICACAO.getValue()));
+        digitos.getVezes().addActionListener(e -> caracterConfig.controlCaracteresEspeciais(Sinais.MULTIPLICACAO.toString()));
 //		BOTÃO DIVISÃO
-        digitos.getDividir().addActionListener(e -> caracterConfig.controlCaracteresEspeciais(Sinais.DIVISAO.getValue()));
+        digitos.getDividir().addActionListener(e -> caracterConfig.controlCaracteresEspeciais(Sinais.DIVISAO.toString()));
 
 //        Raiz Quadrada
         digitos.getRaiz().addActionListener(e -> raizQuadradaService.raizQuadConfig(
