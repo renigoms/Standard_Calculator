@@ -23,8 +23,6 @@ public class TecladoActions {
 
     private PointManager pointManager;
 
-    private CalculadoraService calculadoraService;
-
     public TecladoActions(TelaPrincipal telaPrincipal, CalculadoraController controller, CalculadoraService calculadoraService, PointManager pointManager){
         this.digitos = telaPrincipal.getPainelDigitos();
         this.controller = controller;

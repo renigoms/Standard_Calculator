@@ -3,6 +3,8 @@ package calculadoraservice.tecladoservice;
 import Validacoes.Validar;
 import calculadoraservice.CalculadoraService;
 import calculadoraservice.point.PointManager;
+import configuration.FormatterConfig;
+import operationperformed.Sinais;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -10,24 +12,23 @@ import java.util.ArrayList;
 public class ApagarService {
 
     public void apagarActionConfig(JTextField areaDeTexto, PointManager pointManager, CalculadoraService calculadoraService){
-        ArrayList<Character> chars = new ArrayList<>(), chars2 = new ArrayList<>();
+        ArrayList<Character> chars, chars2 = new ArrayList<>();
         boolean isMenosSinal = false, sinalfinal, sinalInicial = false;
 
         if (!areaDeTexto.getText().isEmpty()) {
-            for (char itemChar:areaDeTexto.getText().toCharArray())
-                chars.add(itemChar);
-            if (chars.get(0) == '-') isMenosSinal = true;
+            chars = FormatterConfig.formartarArrayCharParaListCharacter(areaDeTexto.getText().toCharArray());
+            if (chars.get(0).charValue() == Sinais.SUBTRACAO.toChar())
+                isMenosSinal = true;
 
-            else chars.add(0,'+');
+            else chars.add(0,Sinais.ADICAO.toChar());
 
-            if(chars.get(chars.size() - 1) == '.')
+            if(chars.get(chars.size() - 1).charValue() == Sinais.PONTO.toChar())
                 pointManager.setPonto(true);
 
             if(Validar.isSinaisEspeciaisInEnd(areaDeTexto.getText())) {
                 for(int i = chars.size() - 1;i>=0;i--) {
                     chars2.add(chars.get(i));
-                    if(chars.get(i)=='+'|| chars.get(i)=='-'||
-                            chars.get(i)=='x'|| chars.get(i)=='÷') {
+                    if(Validar.temSinalAqui(chars, i)) {
                         if(!sinalInicial) {
                             sinalInicial = true;
                             continue;
@@ -36,7 +37,7 @@ public class ApagarService {
 
                     if(Validar.isSinaisEspeciaisInEnd(String.valueOf(chars.get(i))) && sinalInicial) {
                         sinalfinal = true;
-                        if(chars2.contains('.')) {
+                        if(chars2.contains(Sinais.PONTO.toChar())) {
                             pointManager.setPonto(false);
                             break;
                         }

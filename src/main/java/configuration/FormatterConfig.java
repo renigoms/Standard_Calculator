@@ -3,6 +3,7 @@ package configuration;
 import Validacoes.Validar;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class FormatterConfig {
@@ -19,5 +20,13 @@ public class FormatterConfig {
             return String.valueOf(resultado);
         }
         return df.format(resultado);
+    }
+
+    public static ArrayList<Character> formartarArrayCharParaListCharacter(char [] caracteres){
+        //lista de chars na area de texto
+        ArrayList<Character> newCaracteres = new ArrayList<>();
+        for (char chars:caracteres)
+            newCaracteres.add(chars);
+        return newCaracteres;
     }
 }
