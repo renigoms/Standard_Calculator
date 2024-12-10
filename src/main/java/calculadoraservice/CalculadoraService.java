@@ -1,26 +1,19 @@
 package calculadoraservice;
 
-import Validacoes.Validar;
 import calculadoraController.CalculadoraController;
 import calculadoraController.ResultadosActionsController;
 import calculadoraModel.Calculadora;
 import calculadoraView.PainelDeDigitos;
 import calculadoraView.TelaPrincipal;
 import calculadoraservice.point.PointManager;
-import calculadoraservice.tecladoservice.ApagarService;
-import calculadoraservice.tecladoservice.RaizQuadradaService;
+import configuration.ApagarConfiguration;
+import configuration.RaizQuadradaConfiguration;
 import configuration.CaracterConfig;
 import configuration.FormatterConfig;
 import operationperformed.Sinais;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 public class CalculadoraService {
 
@@ -41,9 +34,9 @@ public class CalculadoraService {
 
     private CaracterConfig caracterConfig;
 
-    private RaizQuadradaService raizQuadradaService;
+    private RaizQuadradaConfiguration raizQuadradaService;
 
-    private ApagarService apagarService;
+    private ApagarConfiguration apagarConfiguration;
 
     public CalculadoraService(TelaPrincipal telaPrincipal, PointManager pointManager,CalculadoraController controller) {
         this.telaPrincipal = telaPrincipal;
@@ -52,9 +45,9 @@ public class CalculadoraService {
         this.pointManager = pointManager;
         this.calculadora = new Calculadora();
         this.controller = controller;
-        this.raizQuadradaService = new RaizQuadradaService();
+        this.raizQuadradaService = new RaizQuadradaConfiguration();
         this.caracterConfig = new CaracterConfig(areaDeTexto, pointManager, calculadora);
-        this.apagarService = new ApagarService();
+        this.apagarConfiguration = new ApagarConfiguration();
     }
 
     public double executarOperacoesService(char[] caractes){
@@ -81,7 +74,7 @@ public class CalculadoraService {
     }
 
 
-    public void numberConfig(){
+    private void numberConfig(){
         digitos.getUm().addActionListener(e -> caracterConfig.controlCaracteresNomais("1"));
         digitos.getDOIS().addActionListener(e -> caracterConfig.controlCaracteresNomais("2"));
         digitos.getTRES().addActionListener(e -> caracterConfig.controlCaracteresNomais("3"));
@@ -94,7 +87,7 @@ public class CalculadoraService {
         digitos.getZero().addActionListener(e -> caracterConfig.controlCaracteresNomais("0"));
     }
 
-    public void fuctionsConfig(){
+    private void fuctionsConfig(){
         digitos.getLigar().addActionListener(e -> ligarDesligarCalculadora(true, "0"));
 
 //		BOTÃO OFF
@@ -115,7 +108,7 @@ public class CalculadoraService {
         digitos.getDividir().addActionListener(e -> caracterConfig.controlCaracteresEspeciais(Sinais.DIVISAO.toString()));
 
 //        Raiz Quadrada
-        digitos.getRaiz().addActionListener(e -> raizQuadradaService.raizQuadConfig(
+        digitos.getRaiz().addActionListener(e -> raizQuadradaService.raizQuad(
                 this, areaDeTexto, pointManager
         ));
 
@@ -125,8 +118,15 @@ public class CalculadoraService {
         ));
 
 //        Apagar caracter
-        digitos.getApagar().addActionListener(e -> apagarService.apagarActionConfig(
+        digitos.getApagar().addActionListener(e -> apagarConfiguration.apagarActionConfig(
                 areaDeTexto, pointManager,this
         ));
+    }
+
+    public void control() {
+//		FUNÇÕES
+        fuctionsConfig();
+//		NÚMEROS DE 0 AO 9
+        numberConfig();
     }
 }

@@ -40,38 +40,6 @@ public class Utils {
     }
 
     /**
-     * Adicona o sinal negativo no inicio da String de chars
-     * @param caractere
-     */
-    public static void addSinalNegativo(char caractere, Calculadora calculadora){
-        calculadora.setUnirChars(new StringBuilder());
-        calculadora.getUnirChars().append(caractere);
-        calculadora.setSomSub(true);
-        calculadora.setInicioNegativo(false);
-    }
-
-    /**
-     * Define a localização de sinais
-     */
-    public static void definirPosicaoSeMaisOuMenos(Calculadora calculadora){
-        calculadora.setMultDivAnterior(calculadora.isMultDiv());
-        calculadora.setMultDiv(false);
-        calculadora.setSomSubAnterior(calculadora.isSomSub());
-        calculadora.setSomSub(true);
-    }
-
-    /**
-     * Define a localização de sinais
-     */
-
-    public static void definirPosicaoSeVezesOuDiv(Calculadora calculadora){
-        calculadora.setMultDivAnterior(calculadora.isMultDiv());
-        calculadora.setMultDiv(true);
-        calculadora.setSomSubAnterior(calculadora.isSomSub());
-        calculadora.setSomSub(false);
-    }
-
-    /**
      * Método que realiza todas as multiplicações
      * prioritarias
      * @param temporario

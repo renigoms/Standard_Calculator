@@ -31,10 +31,6 @@ public class PointManager {
         }
     }
 
-    public boolean isPonto() {
-        return isPonto;
-    }
-
     public void setPonto(boolean ponto) {
         isPonto = ponto;
     }

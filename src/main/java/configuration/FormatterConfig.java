@@ -1,7 +1,5 @@
 package configuration;
 
-import Validacoes.Validar;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -13,10 +11,18 @@ public class FormatterConfig {
      * do resultado passado.
      */
 
+    private static boolean isBigNumber(double number){
+        String strNumber = String.valueOf(number);
+        for (char chars:strNumber.toCharArray())
+            if (chars == 'E')
+                return true;
+        return false;
+    }
+
     public static String formatarResultado(double resultado, String mask) {
         Locale.setDefault(Locale.US);// padroniza o ponto
         DecimalFormat df = new DecimalFormat(mask);
-        if (Validar.isBigNumber(resultado)){
+        if (isBigNumber(resultado)){
             return String.valueOf(resultado);
         }
         return df.format(resultado);

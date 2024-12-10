@@ -35,7 +35,7 @@ public class TecladoActions {
 
     //	ALGUNS CARACTERES ESPECIAIS
 
-    public void sinaisEspeciais(){
+    private void sinaisEspeciais(){
         digitos.getMais().addKeyListener(keyHandler);
         digitos.getMenos().addKeyListener(keyHandler);
         digitos.getVezes().addKeyListener(keyHandler);
@@ -47,11 +47,11 @@ public class TecladoActions {
         digitos.getButtonOff().addKeyListener(keyHandler);
         digitos.getRaiz().addKeyListener(keyHandler);
     }
-    public void teclasDeFuncionamento(){
+    private void teclasDeFuncionamento(){
         digitos.getIgual().addActionListener(resultadosOperacoes);
         areaDeTexto.addKeyListener(keyHandler);
     }
-    public void digitosNumericos(){
+    private void digitosNumericos(){
         digitos.getZero().addKeyListener(keyHandler);
         digitos.getUm().addKeyListener(keyHandler);
         digitos.getDOIS().addKeyListener(keyHandler);
@@ -63,4 +63,14 @@ public class TecladoActions {
         digitos.getOito().addKeyListener(keyHandler);
         digitos.getNove().addKeyListener(keyHandler);
     }
+
+    public void control() {
+        this.teclasDeFuncionamento();
+//		COMANDOS DO TECLADO
+//		SINAIS ESPECIAIS
+        this.sinaisEspeciais();
+//		NÚMEROS DE 0 A 9
+        this.digitosNumericos();
+    }
 }
+
