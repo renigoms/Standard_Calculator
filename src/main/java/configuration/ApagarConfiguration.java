@@ -1,15 +1,21 @@
-package calculadoraservice.tecladoservice;
+package configuration;
 
 import Validacoes.Validar;
 import calculadoraservice.CalculadoraService;
 import calculadoraservice.point.PointManager;
-import configuration.FormatterConfig;
 import operationperformed.Sinais;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class ApagarService {
+public class ApagarConfiguration {
+
+    private boolean temSinalAqui(ArrayList<Character> chars, int i){
+        return chars.get(i)== Sinais.ADICAO.getValue()||
+                chars.get(i) ==Sinais.SUBTRACAO.getValue()||
+                chars.get(i)==Sinais.MULTIPLICACAO.getValue()||
+                chars.get(i)==Sinais.DIVISAO.getValue();
+    }
 
     public void apagarActionConfig(JTextField areaDeTexto, PointManager pointManager, CalculadoraService calculadoraService){
         ArrayList<Character> chars, chars2 = new ArrayList<>();
@@ -28,7 +34,7 @@ public class ApagarService {
             if(Validar.isSinaisEspeciaisInEnd(areaDeTexto.getText())) {
                 for(int i = chars.size() - 1;i>=0;i--) {
                     chars2.add(chars.get(i));
-                    if(Validar.temSinalAqui(chars, i)) {
+                    if(this.temSinalAqui(chars, i)) {
                         if(!sinalInicial) {
                             sinalInicial = true;
                             continue;

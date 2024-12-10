@@ -1,4 +1,4 @@
-package calculadoraservice.tecladoservice;
+package configuration;
 
 import Validacoes.Validar;
 import calculadoraModel.OperacaoInvalidaException;
@@ -10,11 +10,11 @@ import operationperformed.Sinais;
 
 import javax.swing.*;
 
-public class RaizQuadradaService {
+public class RaizQuadradaConfiguration {
 
-    public static final String MASK = "#.####";
+    private static final String MASK = "#.####";
 
-    public void raizQuadConfig(CalculadoraService calculadoraService, JTextField areaDeTexto, PointManager pointManager){
+    public void raizQuad(CalculadoraService calculadoraService, JTextField areaDeTexto, PointManager pointManager){
         try {
             if(!areaDeTexto.getText().isEmpty() && calculadoraService.isCalculateOn()) {
                 if (Validar.isSinaisEspeciaisInEnd(areaDeTexto.getText()) ||

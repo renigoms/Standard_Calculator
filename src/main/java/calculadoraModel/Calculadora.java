@@ -18,6 +18,37 @@ public class Calculadora implements OperacoesI{
         isLigada = false;
     }
     /**
+     * Adicona o sinal negativo no inicio da String de chars
+     * @param caractere
+     */
+    private static void addSinalNegativo(char caractere, Calculadora calculadora){
+        calculadora.setUnirChars(new StringBuilder());
+        calculadora.getUnirChars().append(caractere);
+        calculadora.setSomSub(true);
+        calculadora.setInicioNegativo(false);
+    }
+
+    /**
+     * Define a localização de sinais
+     */
+    private static void definirPosicaoSeMaisOuMenos(Calculadora calculadora){
+        calculadora.setMultDivAnterior(calculadora.isMultDiv());
+        calculadora.setMultDiv(false);
+        calculadora.setSomSubAnterior(calculadora.isSomSub());
+        calculadora.setSomSub(true);
+    }
+
+    /**
+     * Define a localização de sinais
+     */
+
+    private static void definirPosicaoSeVezesOuDiv(Calculadora calculadora){
+        calculadora.setMultDivAnterior(calculadora.isMultDiv());
+        calculadora.setMultDiv(true);
+        calculadora.setSomSubAnterior(calculadora.isSomSub());
+        calculadora.setSomSub(false);
+    }
+    /**
      * @param num
      * @return A soma de valores no da lista de doubles fornecida
      */
@@ -81,7 +112,7 @@ public class Calculadora implements OperacoesI{
         for (Character chars : caracteres) {
             // AQUI É FEITA A VERIFICAÇÃO DE SINAL NEGATIVO NO PRIMEIRO NÚMERO.
             if (inicioNegativo) {
-                Utils.addSinalNegativo(chars, this);
+                this.addSinalNegativo(chars, this);
                 continue;
             }
 //            VERIFICA SE O CARACTERE chars É UM + OU -
@@ -90,7 +121,7 @@ public class Calculadora implements OperacoesI{
                 OS BOOLEANOS DE DEFINIÇAO DE SINAIS SERVEM PARA DEFINIR QUAL FOI O
                 ULTIMO SINAL QUE APARECU E QUAL O SINAL ATUAL.
                  */
-                Utils.definirPosicaoSeMaisOuMenos(this);
+                this.definirPosicaoSeMaisOuMenos(this);
 
                 /*
                 cASO NÃO HAJA NENHUM SINAL DE MULTIPLICAÇÃO A DIREITA OU
@@ -130,7 +161,7 @@ public class Calculadora implements OperacoesI{
             }
 
             if(chars == Sinais.MULTIPLICACAO.getValue() || chars == Sinais.DIVISAO.getValue()){
-                Utils.definirPosicaoSeVezesOuDiv(this);
+                this.definirPosicaoSeVezesOuDiv(this);
 
 //                CASE +/-12345X/÷
                 if(isSomSubAnterior && isMultDiv){
@@ -208,10 +239,6 @@ public class Calculadora implements OperacoesI{
         this.isLigada = isLigada;
     }
 
-    public boolean isInicioNegativo() {
-        return inicioNegativo;
-    }
-
     public void setInicioNegativo(boolean inicioNegativo) {
         this.inicioNegativo = inicioNegativo;
     }
@@ -232,16 +259,8 @@ public class Calculadora implements OperacoesI{
         isMultDiv = multDiv;
     }
 
-    public boolean isSomSubAnterior() {
-        return isSomSubAnterior;
-    }
-
     public void setSomSubAnterior(boolean somSubAnterior) {
         isSomSubAnterior = somSubAnterior;
-    }
-
-    public boolean isMultDivAnterior() {
-        return isMultDivAnterior;
     }
 
     public void setMultDivAnterior(boolean multDivAnterior) {

@@ -1,6 +1,5 @@
 package calculadoraControllerTeste;
 
-import Validacoes.Validar;
 import calculadoraController.CalculadoraController;
 import calculadoraModel.Calculadora;
 import calculadoraView.TelaPrincipal;
@@ -10,9 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ControllerTestes {
     private  CalculadoraController calculadoraController;
