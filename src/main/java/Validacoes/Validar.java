@@ -1,7 +1,5 @@
 package Validacoes;
 
-import operationperformed.Sinais;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

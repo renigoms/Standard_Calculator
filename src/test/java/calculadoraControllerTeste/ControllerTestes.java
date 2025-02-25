@@ -12,14 +12,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 public class ControllerTestes {
-    private  CalculadoraController calculadoraController;
     private Calculadora calculadora;
 
     private final ArrayList<Character> LISTCHRAS2 = new ArrayList<>();
     private final ArrayList<Character> LISTCHRAS3 = new ArrayList<>();
     @BeforeEach
     public void inicio(){
-         calculadoraController = new CalculadoraController(new TelaPrincipal());
+         new CalculadoraController(new TelaPrincipal());
          calculadora = new Calculadora();
         String EQUACAO = "0.14÷6500000";
         for(char chars:EQUACAO.toCharArray())

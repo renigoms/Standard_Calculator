@@ -1,14 +1,13 @@
 package configuration;
 
+import javax.swing.JTextField;
+
 import Validacoes.Validar;
 import calculadoraModel.OperacaoInvalidaException;
 import calculadoraservice.CalculadoraService;
 import calculadoraservice.point.PointManager;
-import configuration.FormatterConfig;
 import operationperformed.Operation;
 import operationperformed.Sinais;
-
-import javax.swing.*;
 
 public class RaizQuadradaConfiguration {
 

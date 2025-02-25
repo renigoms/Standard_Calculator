@@ -1,13 +1,13 @@
 package configuration;
 
+import java.util.ArrayList;
+
+import javax.swing.JTextField;
+
 import Validacoes.Validar;
 import calculadoraModel.Calculadora;
-import calculadoraservice.CalculadoraService;
 import calculadoraservice.point.PointManager;
 import operationperformed.Operation;
-
-import javax.swing.*;
-import java.util.ArrayList;
 
 public class CaracterConfig {
 
